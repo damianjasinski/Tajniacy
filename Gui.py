@@ -1,0 +1,1 @@
+To się nie skompiluje jak coś
