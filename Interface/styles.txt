@@ -1,0 +1,19 @@
+Styles you can choose
+light_yellow.xml
+light_teal.xml
+dark_purple.xml
+light_amber.xml
+light_blue.xml
+light_purple.xml
+dark_pink.xml
+light_cyan.xml
+dark_blue.xml
+dark_teal.xml
+dark_lightgreen.xml
+light_lightgreen.xml
+light_pink.xml
+dark_amber.xml
+dark_cyan.xml
+light_red.xml
+dark_yellow.xml
+dark_red.xml

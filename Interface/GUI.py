@@ -5,7 +5,8 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtGui import (QPixmap, QPainter, QBrush, QPen, QColor, QPainterPath, QIcon)
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from PyQt5 import QtWidgets
+from TeamWidget import TeamWidget
+from CardsWidget import CardsWidget
 from qt_material import apply_stylesheet
 
 
@@ -32,22 +33,33 @@ class UserInterface(QMainWindow):
         #Title Label
         titleLabel = QLabel("Tajniacy!")
         titleLabel.setStyleSheet("font-family: 'Trebuchet MS'; font-style:italic; font-weight:bold; font-size:60px; cursive; color: hsl(50, 80%, 50%);")
-        titleLabel.setAlignment(Qt.AlignCenter)
+        titleLabel.setAlignment(Qt.AlignHCenter)
         mainLayout.addWidget(titleLabel)
 
 
         #Play (main window for cards and teams) layout set
+        mainLayout.addStretch(1)
         mainLayout.addLayout(playLayout)
-        
+        mainLayout.addStretch(12)
+        playLayout.setAlignment(Qt.AlignVCenter)
 
-        teamName = QLabel("Red")
-        teamName.setStyleSheet("font-family: 'Trebuchet MS'; font-style:italic; font-weight:bold; font-size:60px; cursive; color: hsl(50, 80%, 50%);")
-        firstTeam.addWidget(teamName)
+        #TeamRed
+        teamRed = TeamWidget("red")
+        playLayout.addWidget(teamRed,10)
+
+        #Cards
+        cards = CardsWidget()
+        playLayout.addWidget(cards,35)
+        
+        #TeamBlue
+        teamBlue = TeamWidget("blue")
+        playLayout.addWidget(teamBlue,10)
+
 
         #button
         button = QPushButton("Kliknij mnie!")
         mainLayout.addWidget(button)
-
+   
 
 
 
@@ -58,5 +70,5 @@ class UserInterface(QMainWindow):
 app = QApplication(sys.argv)
 dialogi = UserInterface()
 dialogi.show()
-apply_stylesheet(app, theme='dark_amber.xml')
+apply_stylesheet(app, theme='dark_pink.xml')
 sys.exit(app.exec_())
