@@ -37,8 +37,12 @@ class UserInterface(QMainWindow):
 
 
         #Play (main window for cards and teams) layout set
-        #
+        mainLayout.addLayout(playLayout)
+        
 
+        teamName = QLabel("Red")
+        teamName.setStyleSheet("font-family: 'Trebuchet MS'; font-style:italic; font-weight:bold; font-size:60px; cursive; color: hsl(50, 80%, 50%);")
+        firstTeam.addWidget(teamName)
 
         #button
         button = QPushButton("Kliknij mnie!")
