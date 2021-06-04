@@ -15,7 +15,7 @@ from qt_material import apply_stylesheet
 class UserInterface(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.setMinimumSize(800,600)
+        self.setMinimumSize(1600,900)
         self.setWindowTitle("Tajniacy")
 
         #Layouts set
@@ -49,7 +49,7 @@ class UserInterface(QMainWindow):
 
         #Cards
         cards = CardsWidget()
-        playLayout.addWidget(cards,35)
+        playLayout.addWidget(cards,50)
         
         #TeamBlue
         teamBlue = TeamWidget("blue")
@@ -70,5 +70,5 @@ class UserInterface(QMainWindow):
 app = QApplication(sys.argv)
 dialogi = UserInterface()
 dialogi.show()
-apply_stylesheet(app, theme='dark_pink.xml')
+apply_stylesheet(app, theme='dark_yellow.xml')
 sys.exit(app.exec_())
