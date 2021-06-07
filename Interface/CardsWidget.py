@@ -120,8 +120,8 @@ class CardsWidget(QWidget):
         painter.drawPath(path)  # Draw path
         painter.fillPath(path, QBrush(QColor(128, 128, 128)))  # Fill the path, where QBrush can set the fill color
 
-# app = QApplication(sys.argv)
-# dialogi = CardsWidget()
-# dialogi.show()
-
-# sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    dialogi = CardsWidget()
+    dialogi.show()
+    sys.exit(app.exec_())

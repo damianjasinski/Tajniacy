@@ -50,9 +50,8 @@ class TeamWidget(QWidget):
         elif self._color == "blue":
             painter.fillPath(path, QBrush(QColor(100,128,255))) # Fill the path, where QBrush can set the fill color     
 
-
-# app = QApplication(sys.argv)
-# dialogi = TeamWidget()
-# dialogi.show()
-
-# sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    dialogi = TeamWidget()
+    dialogi.show()
+    sys.exit(app.exec_())

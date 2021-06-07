@@ -65,10 +65,9 @@ class UserInterface(QMainWindow):
 
 
 
-
-
-app = QApplication(sys.argv)
-dialogi = UserInterface()
-dialogi.show()
-apply_stylesheet(app, theme='dark_yellow.xml')
-sys.exit(app.exec_())
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    dialogi = UserInterface()
+    dialogi.show()
+    apply_stylesheet(app, theme='dark_yellow.xml')
+    sys.exit(app.exec_())
