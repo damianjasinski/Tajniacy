@@ -5,7 +5,7 @@ class FileReader:
         self.words = tuple()
         self.read = False
     def read_file(self, filename):
-        with open(filename, "rt") as file:
+        with open(filename, "rt", encoding="utf-8") as file:
             wordsTable = list()
             for line in file:
                 line = line.strip()

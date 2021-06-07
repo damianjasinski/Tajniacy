@@ -1,3 +1,4 @@
+from FileReader import FileReader
 import sys
 import os
 import threading
@@ -51,6 +52,7 @@ class CardsWidget(QWidget):
         mainLayout = QGridLayout()
         self.setLayout(mainLayout)
         self.setMinimumSize(500, 500)
+        
 
         # TO DO: load cards from file
         # card colors:
@@ -58,10 +60,14 @@ class CardsWidget(QWidget):
         # Blue team: DarkBlue
         # Assassin: Black
         # Neutral: DimGrey
+        file_reader = FileReader()
+        file_reader.read_file("Interface/words.txt")
+        words = random.choices(file_reader.get_words(), k=25)
         cardList = list()
         for row in range(5):
             for column in range(5):
-                card = Card("Row: " + str(row + 1) + " Column: " + str(column + 1))
+                #card = Card("Row: " + str(row + 1) + " Column: " + str(column + 1))
+                card = Card(words[row+5*column])
                 cardList.append(card)
                 mainLayout.addWidget(card, row + 1, column + 1, 1, 1)
 
