@@ -1,6 +1,6 @@
 # Tajniacy
 
-Gra to w sumie klon Tajniaków tyle elo
+Gra to w sumie klon Tajniaków tyle
 
 ## How to configure
 
