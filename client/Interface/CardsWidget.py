@@ -14,11 +14,12 @@ from qt_material import apply_stylesheet
 class Card(QFrame):
     def __init__(self, text):
         super().__init__()
+        self.setObjectName("Card")
 
-        mainLayout = QGridLayout()
-        self.setLayout(mainLayout)
-        self.setMinimumSize(200, 100)
-        self.color = "DimGrey"
+        self.mainLayout = QGridLayout()
+        self.setLayout(self.mainLayout)
+        self.setMinimumSize(150, 100)
+        self.color = "default"
 
         self.wordUsed = QLabel(str(text).upper())
         self.wordUsed.setAlignment(Qt.AlignCenter)
@@ -29,20 +30,27 @@ class Card(QFrame):
         self.chooseBtn = QPushButton("Choose")
         self.chooseBtn.clicked.connect(self.revealColor)
 
-        mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
-        mainLayout.addWidget(self.voteBtn, 3, 1, 1, 1)
-        mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
+        self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
+        self.mainLayout.addWidget(self.voteBtn, 3, 1, 1, 1)
+        self.mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
 
-        self.setStyleSheet("background-color : AntiqueWhite;"
-                           "color : DarkGrey;")
+        self.setStyleSheet("#Card {background-image: url(Images/" + self.color + "Card.png)}")
 
-    def setColor(self,color):
+    def setColor(self, color):
         self.color = color
 
     def revealColor(self):
-        self.setStyleSheet("background-color : " + self.color + ";")
-        #self.chooseBtn.setEnabled(False)
-        #self.voteBtn.setEnabled(False)
+        self.setStyleSheet("background-image: url(Images/" + self.color + "Card.png)")
+        self.mainLayout.itemAt(0).widget().deleteLater()
+        self.mainLayout.itemAt(1).widget().deleteLater()
+        self.mainLayout.itemAt(2).widget().deleteLater()
+
+    def spyMasterView(self):
+        self.setStyleSheet("#Card {background-image: url(Images/" + self.color + "Card.png)}")
+        self.wordUsed.setMaximumSize(100, 30)
+        self.mainLayout.itemAt(1).widget().deleteLater()
+        self.mainLayout.itemAt(2).widget().deleteLater()
+        self.mainLayout.addWidget(self.wordUsed, 1, 1, 1, 1)
 
 
 class CardsWidget(QWidget):
@@ -52,79 +60,56 @@ class CardsWidget(QWidget):
         mainLayout = QGridLayout()
         self.setLayout(mainLayout)
         self.setMinimumSize(500, 500)
-        
 
-        # TO DO: load cards from file
         # card colors:
-        # Red team: DarkRed
-        # Blue team: DarkBlue
-        # Assassin: Black
-        # Neutral: DimGrey
+        # Red team: red
+        # Blue team: blue
+        # Assassin: black
+        # Neutral: neutral
         file_reader = FileReader()
-        file_reader.read_file("Interface/words.txt")
+        file_reader.read_file("words.txt")
         words = random.choices(file_reader.get_words(), k=25)
-        cardList = list()
+        tempCardList = list()
+        self.cardList = list()
         for row in range(5):
             for column in range(5):
-                #card = Card("Row: " + str(row + 1) + " Column: " + str(column + 1))
-                card = Card(words[row+5*column])
-                cardList.append(card)
+                # card = Card("Row: " + str(row + 1) + " Column: " + str(column + 1))
+                card = Card(words[row + 5 * column])
+                tempCardList.append(card)
+                self.cardList.append(card)
                 mainLayout.addWidget(card, row + 1, column + 1, 1, 1)
 
-        #randomizing cards color
+        # randomizing cards color
         for i in range(8):
-            card = random.choice(cardList)
-            card.setColor("DarkBlue")
-            cardList.remove(card)
+            card = random.choice(tempCardList)
+            card.setColor("blue")
+            tempCardList.remove(card)
         for i in range(8):
-            card = random.choice(cardList)
-            card.setColor("DarkRed")
-            cardList.remove(card)
+            card = random.choice(tempCardList)
+            card.setColor("red")
+            tempCardList.remove(card)
         for i in range(7):
-            card = random.choice(cardList)
-            card.setColor("DimGrey")
-            cardList.remove(card)
+            card = random.choice(tempCardList)
+            card.setColor("neutral")
+            tempCardList.remove(card)
 
-        card = random.choice(cardList)
-        card.setColor("Black")
-        cardList.remove(card)
+        card = random.choice(tempCardList)
+        card.setColor("black")
+        tempCardList.remove(card)
 
         # choose which team starts
-        card = random.choice(cardList)
-        if random.randint(1,100) < 50:
-            card.setColor("DarkBlue")
+        card = random.choice(tempCardList)
+        if random.randint(1, 100) < 50:
+            card.setColor("blue")
         else:
-            card.setColor("DarkRed")
+            card.setColor("red")
 
-        cardList.remove(card)
+        tempCardList.remove(card)
 
-        # cardsBoard = QLabel("Cards")
-        # cardsBoard.setStyleSheet("font-family: 'Trebuchet MS'; font-style:italic; font-weight:bold; font-size:60px; cursive; color: rgb(128,128,128);")
-        # cardsBoard.setAlignment(Qt.AlignCenter)
+        # use this to get spyMaster view of board
+        # for i in self.cardList:
+        #    i.spyMasterView()
 
-        # mainLayout.addWidget(cardsBoard)
-
-    def paintEvent(self, event):
-        self.text = "Cards"
-        self.font = QFont("Trebuchet MS", 45)
-        metrics = QFontMetrics(self.font)
-        painter = QPainter(self)
-        path = QPainterPath()
-        pen = QPen(Qt.white)
-        len = metrics.width(self.text)
-        w = self.width()
-        px = (len - w) / 2
-        if px < 0:
-            px = -px
-            py = (self.height() - metrics.height()) / 2 + metrics.ascent()
-        if py < 0:
-            py = -py
-        pen.setWidth(2)
-        path.addText(px, py, self.font, self.text)  # Add the path to draw the font to the path
-        painter.setRenderHint(QPainter.Antialiasing)  # Turn on anti-aliasing, otherwise it looks ugly
-        painter.strokePath(path, pen)  # Generate path
-        painter.drawPath(path)  # Draw path
-        painter.fillPath(path, QBrush(QColor(128, 128, 128)))  # Fill the path, where QBrush can set the fill color
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -9,12 +9,11 @@ from PyQt5 import QtWidgets
 from qt_material import apply_stylesheet
 
 
-
 class TeamWidget(QWidget):
 
-    def __init__(self,color):
+    def __init__(self, color):
         super().__init__()
-        self._color = color;
+        self._color = color
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
         self.setMinimumSize(60, 60)
@@ -26,7 +25,7 @@ class TeamWidget(QWidget):
         elif self._color == "blue":
             self.text = "Blue"
 
-        self.font = QFont("Trebuchet MS",40)
+        self.font = QFont("Trebuchet MS", 40)
         metrics = QFontMetrics(self.font)
         painter = QPainter(self)
         path = QPainterPath()
@@ -40,15 +39,16 @@ class TeamWidget(QWidget):
         if py < 0:
             py = -py
         pen.setWidth(2)
-        path.addText(px, py, self.font, self.text) # Add the path to draw the font to the path
-        painter.setRenderHint(QPainter.Antialiasing) # Turn on anti-aliasing, otherwise it looks ugly
-        painter.strokePath(path, pen) # Generate path
-        painter.drawPath(path) # Draw path
-        
+        path.addText(px, py, self.font, self.text)  # Add the path to draw the font to the path
+        painter.setRenderHint(QPainter.Antialiasing)  # Turn on anti-aliasing, otherwise it looks ugly
+        painter.strokePath(path, pen)  # Generate path
+        painter.drawPath(path)  # Draw path
+
         if self._color == "red":
-             painter.fillPath(path, QBrush(QColor(255,100,100))) # Fill the path, where QBrush can set the fill color     
+            painter.fillPath(path, QBrush(QColor(255, 100, 100)))  # Fill the path, where QBrush can set the fill color
         elif self._color == "blue":
-            painter.fillPath(path, QBrush(QColor(100,128,255))) # Fill the path, where QBrush can set the fill color     
+            painter.fillPath(path, QBrush(QColor(100, 128, 255)))  # Fill the path, where QBrush can set the fill color
+
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)

@@ -1,9 +1,11 @@
 import sys
 
+
 class FileReader:
     def __init__(self):
         self.words = tuple()
         self.read = False
+
     def read_file(self, filename):
         with open(filename, "rt", encoding="utf-8") as file:
             wordsTable = list()
@@ -16,11 +18,13 @@ class FileReader:
                 wordsTable.append(line)
             self.words = tuple(wordsTable)
         self.read = True
+
     def get_words(self):
         if self.read:
             return self.words
         else:
             return None
+
 
 if __name__ == "__main__":
     fr = FileReader()
