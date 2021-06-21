@@ -1,7 +1,7 @@
 import sys
 
 
-class FileReader:
+class WordReader:
     def __init__(self):
         self.words = tuple()
         self.read = False
@@ -27,7 +27,7 @@ class FileReader:
 
 
 if __name__ == "__main__":
-    fr = FileReader()
-    fr.read_file("Interface/words.txt")
+    fr = WordReader()
+    fr.read_file("words.txt")
     for w in fr.get_words():
         print(w)
