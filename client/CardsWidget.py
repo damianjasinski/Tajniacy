@@ -4,7 +4,8 @@ import os
 import threading
 import random
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.QtGui import (QFont, QFontMetrics, QPixmap, QPainter, QBrush, QPen, QColor, QPainterPath, QIcon)
+from PyQt5.QtGui import (QFont, QFontMetrics, QPixmap,
+                         QPainter, QBrush, QPen, QColor, QPainterPath, QIcon)
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from PyQt5 import QtWidgets
@@ -34,19 +35,22 @@ class Card(QFrame):
         self.mainLayout.addWidget(self.voteBtn, 3, 1, 1, 1)
         self.mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
 
-        self.setStyleSheet("#Card {background-image: url(Images/" + self.color + "Card.png)}")
+        self.setStyleSheet(
+            "#Card {background-image: url(Images/" + self.color + "Card.png)}")
 
     def setColor(self, color):
         self.color = color
 
     def revealColor(self):
-        self.setStyleSheet("background-image: url(Images/" + self.color + "Card.png)")
+        self.setStyleSheet(
+            "background-image: url(Images/" + self.color + "Card.png)")
         self.mainLayout.itemAt(0).widget().deleteLater()
         self.mainLayout.itemAt(1).widget().deleteLater()
         self.mainLayout.itemAt(2).widget().deleteLater()
 
     def spyMasterView(self):
-        self.setStyleSheet("#Card {background-image: url(Images/" + self.color + "Card.png)}")
+        self.setStyleSheet(
+            "#Card {background-image: url(Images/" + self.color + "Card.png)}")
         self.wordUsed.setMaximumSize(100, 30)
         self.mainLayout.itemAt(1).widget().deleteLater()
         self.mainLayout.itemAt(2).widget().deleteLater()
@@ -66,7 +70,7 @@ class CardsWidget(QWidget):
         # Blue team: blue
         # Assassin: black
         # Neutral: neutral
-        file_reader = FileReader()
+        file_reader = WordReader()
         file_reader.read_file("words.txt")
         words = random.choices(file_reader.get_words(), k=25)
         tempCardList = list()

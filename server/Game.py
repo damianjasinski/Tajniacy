@@ -1,0 +1,45 @@
+from server.Card import Card
+from shared.CardColor import CardColor
+from server.WordReader import WordReader
+import random
+
+
+class Game():
+    def __init__(self):
+        self.players = []
+        self.cards = []
+
+    def generateWords(self):
+        print("Generating cards...")
+        reader = WordReader()
+        reader.read_file("words.txt")
+        words = random.choices(reader.get_words(), k=25)
+
+        tempCardList = []
+
+        self.cards = list()
+        for row in range(5):
+            for column in range(5):
+                card = Card(words[row + 5 * column])
+                tempCardList.append(card)
+                self.cards.append(card)
+
+        # randomizing cards color
+        for i in range(8):
+            card = random.choice(tempCardList)
+            card.set_color(CardColor.BLUE)
+            tempCardList.remove(card)
+        for i in range(8):
+            card = random.choice(tempCardList)
+            card.set_color(CardColor.RED)
+            tempCardList.remove(card)
+        for i in range(7):
+            card = random.choice(tempCardList)
+            card.set_color(CardColor.NEUTRAL)
+            tempCardList.remove(card)
+
+        card = random.choice(tempCardList)
+        card.set_color(CardColor.BLACK)
+        tempCardList.remove(card)
+
+        print("Cards generated!")
