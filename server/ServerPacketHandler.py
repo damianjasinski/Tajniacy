@@ -5,6 +5,7 @@ from shared.PacketHandler import PacketHandler
 from shared.s2c.ChooseTeamS2C import ChooseTeamS2C
 from shared.s2c.HandshakeS2C import HandshakeS2C
 from shared.s2c.PlayerJoinedS2C import PlayerJoinedS2C
+from shared.s2c.SwitchSpymasterS2C import SwitchSpymasterS2C
 from shared.synchronized import synchronized
 
 from server.ClientHandler import ClientHandler
@@ -30,6 +31,10 @@ class ServerPacketHandler():
             if handler is not param:
                 handler.send(data)
 
+    def sendToAll(self, data):
+        for handler in self.server.clientHandlers:
+            handler.send(data)
+
     def handleHandshake(self, data: HandshakeC2S, param: ClientHandler):
         param.player.name = data.name
 
@@ -40,7 +45,8 @@ class ServerPacketHandler():
 
     def handleChooseTeam(self, data: ChooseTeamC2S, param: ClientHandler):
         param.player.team = data.team
-        self.sendToOthers(ChooseTeamS2C(data.team, param.player.name), param)
+        self.sendToAll(ChooseTeamS2C(param.player.name, data.team))
 
     def handleSwitchSpymaster(self, data: SwitchSpymasterC2S, param: ClientHandler):
-        pass
+        param.player.spymaster = data.isSpymaster
+        self.sendToAll(SwitchSpymasterS2C(param.player.name, data.team))

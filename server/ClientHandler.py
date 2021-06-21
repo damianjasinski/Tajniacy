@@ -1,18 +1,21 @@
-from shared.synchronized import synchronized
-import threading
 import pickle
+import threading
 from socket import socket
 
-from server.ServerPacketHandler import ServerPacketHandler
 from shared.Player import Player
+from shared.synchronized import synchronized
+
+from server.Server import Server
+from server.ServerPacketHandler import ServerPacketHandler
 
 
 class ClientHandler(threading.Thread):
-    def __init__(self, socket: socket, player: Player, packetHandler: ServerPacketHandler):
+    def __init__(self, socket: socket, player: Player, server: Server, packetHandler: ServerPacketHandler):
         threading.Thread.__init__(self)
         self.setDaemon(True)
         self.socket = socket
         self.player = player
+        self.server = server
         self.packetHandler = packetHandler
 
     @synchronized
@@ -20,11 +23,17 @@ class ClientHandler(threading.Thread):
         self.socket.send(pickle.dumps(data))
 
     def run(self):
-        while True:
-            buff = self.socket.recv(1024)
+        try:
+            while True:
+                buff = self.socket.recv(1024)
 
-            data = pickle.loads(buff)
+                data = pickle.loads(buff)
 
-            print(self, data)
+                print(self, data)
 
-            self.packetHandler.handle(data, self)
+                self.packetHandler.handle(data, self)
+        except IOError:
+            print("exception")
+
+        print("Disconnected")
+        self.server.game.removePlayer(self.player)

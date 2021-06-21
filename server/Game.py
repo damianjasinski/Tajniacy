@@ -1,3 +1,4 @@
+from shared.synchronized import synchronized
 from server.Card import Card
 from shared.CardColor import CardColor
 from server.WordReader import WordReader
@@ -8,6 +9,14 @@ class Game():
     def __init__(self):
         self.players = []
         self.cards = []
+
+    @synchronized
+    def addPlayer(self, player):
+        self.players.append(player)
+
+    @synchronized
+    def removePlayer(self, player):
+        self.players.remove(player)
 
     def generateWords(self):
         print("Generating cards...")
