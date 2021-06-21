@@ -73,7 +73,6 @@ class CardsWidget(QWidget):
         self.cardList = list()
         for row in range(5):
             for column in range(5):
-                # card = Card("Row: " + str(row + 1) + " Column: " + str(column + 1))
                 card = Card(words[row + 5 * column])
                 tempCardList.append(card)
                 self.cardList.append(card)
@@ -92,7 +91,6 @@ class CardsWidget(QWidget):
             card = random.choice(tempCardList)
             card.setColor("neutral")
             tempCardList.remove(card)
-
         card = random.choice(tempCardList)
         card.setColor("black")
         tempCardList.remove(card)
@@ -103,12 +101,12 @@ class CardsWidget(QWidget):
             card.setColor("blue")
         else:
             card.setColor("red")
-
         tempCardList.remove(card)
 
-        # use this to get spyMaster view of board
-        # for i in self.cardList:
-        #    i.spyMasterView()
+    # use this to get spyMaster view of board
+    def showSpymasterView(self):
+        for card in self.cardList:
+            card.spyMasterView()
 
 
 if __name__ == "__main__":
