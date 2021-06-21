@@ -10,13 +10,10 @@ from shared.s2c.PlayerJoinedS2C import PlayerJoinedS2C
 from shared.s2c.SwitchSpymasterS2C import SwitchSpymasterS2C
 from shared.synchronized import synchronized
 
-from server.ClientHandler import ClientHandler
-from server.Server import Server
-
 
 class ServerPacketHandler():
 
-    def __init__(self, server: Server):
+    def __init__(self, server):
         self.server = server
         self.packetHandler = PacketHandler()
         self.packetHandler.register(HandshakeC2S, self.handleHandshake)
@@ -37,7 +34,7 @@ class ServerPacketHandler():
         for handler in self.server.clientHandlers:
             handler.send(data)
 
-    def handleHandshake(self, data: HandshakeC2S, param: ClientHandler):
+    def handleHandshake(self, data: HandshakeC2S, param):
         param.player.name = data.name
 
         param.send(HandshakeS2C(self.server.game.players))
@@ -45,16 +42,16 @@ class ServerPacketHandler():
         self.server.game.players.append(param.player)
         self.sendToOthers(PlayerJoinedS2C(param.player), param)
 
-    def handleChooseTeam(self, data: ChooseTeamC2S, param: ClientHandler):
+    def handleChooseTeam(self, data: ChooseTeamC2S, param):
         param.player.team = data.team
         param.player.spymaster = False
         self.sendToAll(ChooseTeamS2C(param.player.name, data.team))
 
-    def handleSwitchSpymaster(self, data: SwitchSpymasterC2S, param: ClientHandler):
+    def handleSwitchSpymaster(self, data: SwitchSpymasterC2S, param):
         param.player.spymaster = data.isSpymaster
         self.sendToAll(SwitchSpymasterS2C(param.player.name, data.team))
 
-    def handleGameStart(self, data: GameStartC2S, param: ClientHandler):
+    def handleGameStart(self, data: GameStartC2S, param):
         self.server.game.generateWords()
         words = map(lambda card: card.text, self.server.game.cards)
 

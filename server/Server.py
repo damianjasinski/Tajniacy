@@ -17,10 +17,12 @@ class Server():
         self.packetHandler = ServerPacketHandler(self)
 
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.serverSocket.bind((socket.gethostname(), 4123))
+        self.serverSocket.bind((socket.gethostname(), port))
         self.serverSocket.listen(8)
+        print(f"Server started at port {port}")
 
     def run(self):
+        print("Waiting for clients...")
         while True:
             clientSocket, address = self.serverSocket.accept()
 
@@ -34,7 +36,8 @@ class Server():
 
 
 def main():
-    server = Server()
+    server = Server(4123)
+    server.run()
 
 
 main()

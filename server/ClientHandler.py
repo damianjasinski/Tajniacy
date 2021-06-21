@@ -5,12 +5,9 @@ from socket import socket
 from shared.Player import Player
 from shared.synchronized import synchronized
 
-from server.Server import Server
-from server.ServerPacketHandler import ServerPacketHandler
-
 
 class ClientHandler(threading.Thread):
-    def __init__(self, socket: socket, player: Player, server: Server, packetHandler: ServerPacketHandler):
+    def __init__(self, socket: socket, player: Player, server, packetHandler):
         threading.Thread.__init__(self)
         self.setDaemon(True)
         self.socket = socket
