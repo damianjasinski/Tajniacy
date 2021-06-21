@@ -27,7 +27,7 @@ class Server():
             print(f"Connection from {address} hasd been established")
 
             clientHandler = ClientHandler(
-                clientSocket, Player(""), self.packetHandler)
+                clientSocket, Player(""), self, self.packetHandler)
             clientHandler.start()
 
             self.clientHandlers.append(clientHandler)
