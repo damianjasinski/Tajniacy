@@ -1,3 +1,5 @@
+from shared.s2c.GameStartS2C import GameStartS2C
+from shared.c2s.GameStartC2S import GameStartC2S
 from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
 from shared.c2s.HandshakeC2S import HandshakeC2S
 from shared.c2s.SwitchSpymasterC2S import SwitchSpymasterC2S
@@ -45,8 +47,15 @@ class ServerPacketHandler():
 
     def handleChooseTeam(self, data: ChooseTeamC2S, param: ClientHandler):
         param.player.team = data.team
+        param.player.spymaster = False
         self.sendToAll(ChooseTeamS2C(param.player.name, data.team))
 
     def handleSwitchSpymaster(self, data: SwitchSpymasterC2S, param: ClientHandler):
         param.player.spymaster = data.isSpymaster
         self.sendToAll(SwitchSpymasterS2C(param.player.name, data.team))
+
+    def handleGameStart(self, data: GameStartC2S, param: ClientHandler):
+        self.server.game.generateWords()
+        words = map(lambda card: card.text, self.server.game.cards)
+
+        self.sendToAll(GameStartS2C(words))
