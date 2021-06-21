@@ -1,3 +1,6 @@
+from shared.s2c.TeamScoreS2C import TeamScoreS2C
+from shared.CardColor import CardColor
+from shared.Team import Team
 from shared.s2c.CardSelectS2C import CardSelectS2C
 from shared.c2s.CardSelectC2S import CardSelectC2S
 from shared.c2s.CardVoteC2S import CardVoteC2S
@@ -44,6 +47,22 @@ class ServerPacketHandler():
         for handler in self.server.clientHandlers:
             handler.send(data)
 
+    def countTeamScore(self, team: Team):
+        cardColor = CardColor.NEUTRAL
+
+        if team == Team.RED:
+            cardColor = CardColor.RED
+        elif team == Team.BLUE:
+            cardColor = CardColor.BLUE
+
+        score = 8
+
+        for card in self.game.cards:
+            if card.color == cardColor and card.shown:
+                score -= 1
+
+        return score
+
     def handleHandshake(self, data: HandshakeC2S, param):
         param.player.name = data.name
 
@@ -87,3 +106,12 @@ class ServerPacketHandler():
                 card.shown = True
 
                 self.sendToAll(CardSelectS2C(card.text, card.color))
+
+                redScore = self.countTeamScore(Team.RED)
+                blueScore = self.countTeamScore(Team.BLUE)
+
+                self.sendToAll(TeamScoreS2C(redScore, blueScore))
+
+                # TODO: add switch side or ending game
+
+                break
