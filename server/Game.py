@@ -1,3 +1,4 @@
+from shared.Team import Team
 from shared.synchronized import synchronized
 from server.Card import Card
 from shared.CardColor import CardColor
@@ -9,6 +10,8 @@ class Game():
     def __init__(self):
         self.players = []
         self.cards = []
+        self.currentTeam = Team.NONE
+        self.cardToGuess = 0
 
     @synchronized
     def addPlayer(self, player):

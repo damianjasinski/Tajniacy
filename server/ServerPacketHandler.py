@@ -1,3 +1,5 @@
+from shared.s2c.GameEndS2C import GameEndS2C
+from shared.s2c.SwitchPlayingSideS2C import SwitchPlayingSideS2C
 from shared.s2c.TeamScoreS2C import TeamScoreS2C
 from shared.CardColor import CardColor
 from shared.Team import Team
@@ -63,6 +65,11 @@ class ServerPacketHandler():
 
         return score
 
+    def handleGameEnd(self, winningTeam: Team):
+        # TODO: add logic for ending game
+
+        self.sendToAll(GameEndS2C(winningTeam))
+
     def handleHandshake(self, data: HandshakeC2S, param):
         param.player.name = data.name
 
@@ -85,9 +92,11 @@ class ServerPacketHandler():
         words = map(lambda card: card.text, self.game.cards)
 
         self.sendToAll(GameStartS2C(words))
+        self.sendToAll(SwitchPlayingSideS2C(Team.RED, True))
 
     def handleCardVote(self, data: CardVoteC2S, param):
-        # TODO: Check if player is current playing team
+        if param.player.team != self.game.currentTeam:
+            return None
 
         for card in self.game.cards:
             if card.text == data.cardText:
@@ -99,7 +108,8 @@ class ServerPacketHandler():
                 self.sendToAll(CardVoteS2C(card.text, card.votes))
 
     def handleCardSelect(self, data: CardSelectC2S, param):
-        # TODO: Check if player is current playing team
+        if param.player.team != self.game.currentTeam:
+            return None
 
         for card in self.game.cards:
             if card.text == data.cardText:
@@ -112,6 +122,35 @@ class ServerPacketHandler():
 
                 self.sendToAll(TeamScoreS2C(redScore, blueScore))
 
-                # TODO: add switch side or ending game
+                self.game.cardToGuess -= 1
 
+                if card.color == CardColor.BLACK:
+                    winningTeam = Team.NONE
+
+                    if self.game.currentTeam == Team.RED:
+                        winningTeam = Team.BLUE
+                    elif self.game.currentTeam == Team.BLUE:
+                        winningTeam = Team.RED
+
+                    self.handleGameEnd(winningTeam)
+                elif redScore == 0:
+                    self.handleGameEnd(Team.RED)
+                elif blueScore == 0:
+                    self.handleGameEnd(Team.BLUE)
+                else:
+                    if (card.color == CardColor.RED and self.game.currentTeam == Team.BLUE or
+                        card.color == CardColor.BLUE and self.game.currentTeam == Team.RED or
+                        card.color == CardColor.NEUTRAL or
+                            self.game.cardToGuess == 0):
+
+                        playingTeam = Team.NONE
+
+                        if self.game.currentTeam == Team.RED:
+                            playingTeam = Team.BLUE
+                        elif self.game.currentTeam == Team.BLUE:
+                            playingTeam = Team.RED
+
+                        self.game.currentTeam = playingTeam
+
+                        self.sendToAll(SwitchPlayingSideS2C(playingTeam, True))
                 break
