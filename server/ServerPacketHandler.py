@@ -1,3 +1,5 @@
+from shared.s2c.SpymasterHintS2C import SpymasterHintS2C
+from shared.c2s.SpymasterHintC2S import SpymasterHintC2S
 from shared.s2c.GameEndS2C import GameEndS2C
 from shared.s2c.SwitchPlayingSideS2C import SwitchPlayingSideS2C
 from shared.s2c.TeamScoreS2C import TeamScoreS2C
@@ -35,6 +37,7 @@ class ServerPacketHandler():
         self.packetHandler.register(GameStartC2S, self.handleGameStart)
         self.packetHandler.register(CardVoteC2S, self.handleCardVote)
         self.packetHandler.register(CardSelectC2S, self.handleCardSelect)
+        self.packetHandler.register(SpymasterHintC2S, self.handleSpymasterHint)
 
     @synchronized
     def handle(self, packet, param):
@@ -154,3 +157,9 @@ class ServerPacketHandler():
 
                         self.sendToAll(SwitchPlayingSideS2C(playingTeam, True))
                 break
+
+    def handleSpymasterHint(self, data: SpymasterHintC2S, param):
+        self.game.cardToGuess = data.number + 1
+
+        self.sendToAll(SwitchPlayingSideS2C(self.game.currentTeam, False))
+        self.sendToAll(SpymasterHintS2C(data.cardText, data.number))
