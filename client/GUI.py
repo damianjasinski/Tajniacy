@@ -2,7 +2,8 @@ import sys
 import os
 import threading
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.QtGui import (QPixmap, QPainter, QBrush, QPen, QColor, QPainterPath, QIcon)
+from PyQt5.QtGui import (QPixmap, QPainter, QBrush,
+                         QPen, QColor, QPainterPath, QIcon)
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from TeamWidget import TeamWidget
@@ -11,7 +12,7 @@ from qt_material import apply_stylesheet
 
 
 class UserInterface(QMainWindow):
-    def __init__(self, username:str):
+    def __init__(self, username: str):
         super().__init__()
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
@@ -38,7 +39,8 @@ class UserInterface(QMainWindow):
 
         # Title Label
         titleLabel = QLabel("Tajniacy!")
-        titleLabel.setStyleSheet("font-family: 'Trebuchet MS'; font-style:italic; font-weight:bold; font-size:60px; cursive; color: hsl(50, 80%, 50%);")
+        titleLabel.setStyleSheet(
+            "font-family: 'Trebuchet MS'; font-style:italic; font-weight:bold; font-size:60px; cursive; color: hsl(50, 80%, 50%);")
         titleLabel.setAlignment(Qt.AlignHCenter)
         mainLayout.addWidget(titleLabel)
 
@@ -71,7 +73,8 @@ class UserInterface(QMainWindow):
             cards.showSpymasterView()
             # bottomLayout
             self.spymasterInput = QLineEdit()
-            self.spymasterInput.setPlaceholderText("Podaj slowo opisujace karty oraz wybierz ilosc kart do odgadniecia")
+            self.spymasterInput.setPlaceholderText(
+                "Podaj slowo opisujace karty oraz wybierz ilosc kart do odgadniecia")
             self.numberOfCards = QComboBox()
             for i in range(8):
                 self.numberOfCards.addItem(str(i+1))

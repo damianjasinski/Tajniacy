@@ -14,8 +14,12 @@ class UserLoginScreen(QMainWindow):
         self.username = ""
         self.ip = ""
 
+        self.mainWidget = QWidget()
+        self.mainWidget.setObjectName("mainWidget")
+        self.setCentralWidget(self.mainWidget)
+
         self.mainLayout = QGridLayout()
-        self.setLayout(self.mainLayout)
+        self.mainWidget.setLayout(self.mainLayout)
         self.setMinimumSize(500, 300)
 
         self.titleWidget = QLabel("Welcome")
@@ -28,14 +32,11 @@ class UserLoginScreen(QMainWindow):
         self.ipLabel.setFixedWidth(200)
         self.ipLabel.setAlignment(Qt.AlignHCenter)
 
-
         self.nameInput = QLineEdit()
         self.ipInput = QLineEdit()
 
         self.acceptButton = QPushButton("Accept")
         self.cancelButton = QPushButton("Cancel")
-
-
 
         self.mainLayout.addWidget(self.titleWidget, 0, 0, 0, 0)
         self.mainLayout.addWidget(self.nameLabel, 1, 0)
@@ -48,14 +49,14 @@ class UserLoginScreen(QMainWindow):
         self.acceptButton.clicked.connect(self.onAcceptButtonClicked)
         self.cancelButton.clicked.connect(self.onCancelButtonClicked)
 
-
     def onAcceptButtonClicked(self):
         self.username = self.nameInput.text
         self.ip = self.ipInput.text
 
-        ui = UserInterface(self.username)
-        ui.show()
-        
+        self.ui = UserInterface(self.username)
+        self.ui.show()
+
+        self.close()
 
     def onCancelButtonClicked(self):
         self.username = None
@@ -70,4 +71,3 @@ if __name__ == "__main__":
     dialogi.show()
     apply_stylesheet(app, theme='dark_amber.xml')
     sys.exit(app.exec_())
-
