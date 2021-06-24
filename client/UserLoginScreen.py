@@ -42,11 +42,9 @@ class UserLoginScreen(QMainWindow):
 
 
         self.redButton = QPushButton("Red")
-        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
-        self.redButton.setStyleSheet("background-color: red;")
+        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px;background-color: rgb(255, 0, 0);")
         self.blueButton = QPushButton("Blue")
-        self.blueButton.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
-        self.blueButton.setStyleSheet("background-color: blue;")
+        self.blueButton.setStyleSheet("background-color: rgb(0, 0, 255); font-family:Berlin Sans FB; font-size:15px;")
 
         self.mainLayout.addWidget(self.titleWidget, 0, 0, 0, 0)
         self.mainLayout.addWidget(self.nameLabel, 1, 0)
