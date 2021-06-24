@@ -12,7 +12,7 @@ from qt_material import apply_stylesheet
 
 
 class UserInterface(QMainWindow):
-    def __init__(self, username: str):
+    def __init__(self, username: str, color: str):
         super().__init__()
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
@@ -104,7 +104,7 @@ class UserInterface(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    dialogi = UserInterface("debil")
+    dialogi = UserInterface("user", "red")
     dialogi.show()
     apply_stylesheet(app, theme='dark_amber.xml')
     sys.exit(app.exec_())

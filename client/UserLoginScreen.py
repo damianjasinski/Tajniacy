@@ -13,6 +13,7 @@ class UserLoginScreen(QMainWindow):
         super().__init__()
         self.username = ""
         self.ip = ""
+        self.color = ""
 
         self.mainWidget = QWidget()
         self.mainWidget.setObjectName("mainWidget")
@@ -35,33 +36,36 @@ class UserLoginScreen(QMainWindow):
         self.nameInput = QLineEdit()
         self.ipInput = QLineEdit()
 
-        self.acceptButton = QPushButton("Accept")
-        self.cancelButton = QPushButton("Cancel")
+        self.redButton = QPushButton("Red")
+        self.redButton.setStyleSheet("background-color: red;")
+        self.blueButton = QPushButton("Blue")
+        self.blueButton.setStyleSheet("background-color: blue;")
 
         self.mainLayout.addWidget(self.titleWidget, 0, 0, 0, 0)
         self.mainLayout.addWidget(self.nameLabel, 1, 0)
         self.mainLayout.addWidget(self.ipLabel, 2, 0)
         self.mainLayout.addWidget(self.nameInput, 1, 1)
         self.mainLayout.addWidget(self.ipInput, 2, 1)
-        self.mainLayout.addWidget(self.cancelButton, 3, 0)
-        self.mainLayout.addWidget(self.acceptButton, 3, 1)
+        self.mainLayout.addWidget(self.blueButton, 3, 0)
+        self.mainLayout.addWidget(self.redButton, 3, 1)
 
-        self.acceptButton.clicked.connect(self.onAcceptButtonClicked)
-        self.cancelButton.clicked.connect(self.onCancelButtonClicked)
+        self.redButton.clicked.connect(self.onRedButtonClicked)
+        self.blueButton.clicked.connect(self.onBlueButtonClicked)
 
-    def onAcceptButtonClicked(self):
+    def onRedButtonClicked(self):
         self.username = self.nameInput.text
         self.ip = self.ipInput.text
-
-        self.ui = UserInterface(self.username)
+        self.color = "red"
+        self.ui = UserInterface(self.username, self.color)
         self.ui.show()
-
         self.close()
 
-    def onCancelButtonClicked(self):
+    def onBlueButtonClicked(self):
         self.username = None
         self.ip = None
-
+        self.color = "blue"
+        self.ui = UserInterface(self.username, self.color)
+        self.ui.show()
         self.close()
 
 
