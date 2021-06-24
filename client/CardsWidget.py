@@ -24,11 +24,13 @@ class Card(QFrame):
 
         self.wordUsed = QLabel(str(text).upper())
         self.wordUsed.setAlignment(Qt.AlignCenter)
-        self.wordUsed.setStyleSheet("background-color : white;"
+        self.wordUsed.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:14px;"
                                     "color : black")
 
         self.voteBtn = QPushButton("Vote")
+        self.voteBtn.setStyleSheet("font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
         self.chooseBtn = QPushButton("Choose")
+        self.chooseBtn.setStyleSheet("font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
         self.chooseBtn.clicked.connect(self.revealColor)
 
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
@@ -70,14 +72,13 @@ class CardsWidget(QWidget):
         # Blue team: blue
         # Assassin: black
         # Neutral: neutral
-        file_reader = WordReader()
+        file_reader = FileReader()
         file_reader.read_file("words.txt")
         words = random.choices(file_reader.get_words(), k=25)
         tempCardList = list()
         self.cardList = list()
         for row in range(5):
             for column in range(5):
-                # card = Card("Row: " + str(row + 1) + " Column: " + str(column + 1))
                 card = Card(words[row + 5 * column])
                 tempCardList.append(card)
                 self.cardList.append(card)
@@ -96,7 +97,6 @@ class CardsWidget(QWidget):
             card = random.choice(tempCardList)
             card.setColor("neutral")
             tempCardList.remove(card)
-
         card = random.choice(tempCardList)
         card.setColor("black")
         tempCardList.remove(card)
@@ -107,12 +107,12 @@ class CardsWidget(QWidget):
             card.setColor("blue")
         else:
             card.setColor("red")
-
         tempCardList.remove(card)
 
-        # use this to get spyMaster view of board
-        # for i in self.cardList:
-        #    i.spyMasterView()
+    # use this to get spyMaster view of board
+    def showSpymasterView(self):
+        for card in self.cardList:
+            card.spyMasterView()
 
 
 if __name__ == "__main__":
