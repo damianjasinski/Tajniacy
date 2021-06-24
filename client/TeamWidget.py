@@ -18,32 +18,33 @@ class TeamWidget(QWidget):
         self.setLayout(mainLayout)
         self.setMinimumSize(60, 60)
 
-
-
-        #Spymasters table
+        # Spymasters table
         self.spylistWidget = QListWidget()
-        self.spylistWidget.setEnabled(False)                 
+        self.spylistWidget.setEnabled(False)
         self.spylistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
-                                      "border: 2px solid "+color)
+                                         "border: 2px solid "+color)
 
-        #Button join as spymaster
-        self.spyButton = QPushButton("Join as spymaster", clicked = self.addSpymaster)
-        self.spyButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px; border-radius:10px;")
+        # Button join as spymaster
+        self.spyButton = QPushButton(
+            "Join as spymaster", clicked=self.addSpymaster)
+        self.spyButton.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:15px; border-radius:10px;")
         mainLayout.addWidget(self.spyButton)
 
-        mainLayout.addWidget(self.spylistWidget,1)
+        mainLayout.addWidget(self.spylistWidget, 1)
 
-        #Players table
+        # Players table
         self.playlistWidget = QListWidget()
-        self.playlistWidget.setEnabled(False)                 
+        self.playlistWidget.setEnabled(False)
         self.playlistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
-                                      "border: 2px solid "+color)
-        #button join as player
-        self.playerButton = QPushButton("Join as player", clicked = self.addPlayer)
-        self.playerButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px;  border-radius:10px;")
+                                          "border: 2px solid "+color)
+        # button join as player
+        self.playerButton = QPushButton(
+            "Join as player", clicked=self.addPlayer)
+        self.playerButton.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:15px;  border-radius:10px;")
         mainLayout.addWidget(self.playerButton)
-        mainLayout.addWidget(self.playlistWidget,2)                              
-
+        mainLayout.addWidget(self.playlistWidget, 2)
 
     def addSpymaster(self, playerName):
         self.spylistWidget.addItem(playerName)
@@ -54,14 +55,13 @@ class TeamWidget(QWidget):
     def removePlayer(self, playerPosition):
         self.listWidget.takeItem(self.spylistWidget.itemAt(playerPosition))
 
-    
     # def paintEvent(self, event):
     #     self.text = None
     #     if self._color == "red":
     #         self.text = "Red"
     #     elif self._color == "blue":
     #         self.text = "Blue"
-    
+
     #     self.font = QFont("Trebuchet MS", 40)
     #     metrics = QFontMetrics(self.font)
     #     painter = QPainter(self)
@@ -80,11 +80,11 @@ class TeamWidget(QWidget):
     #     painter.setRenderHint(QPainter.Antialiasing)  # Turn on anti-aliasing, otherwise it looks ugly
     #     painter.strokePath(path, pen)  # Generate path
     #     painter.drawPath(path)  # Draw path
-    
+
     #     if self._color == "red":
     #         painter.fillPath(path, QBrush(QColor(255, 100, 100)))  # Fill the path, where QBrush can set the fill color
-        #elif self._color == "blue":
-            #painter.fillPath(path, QBrush(QColor(100, 128, 255)))  # Fill the path, where QBrush can set the fill color
+        # elif self._color == "blue":
+        # painter.fillPath(path, QBrush(QColor(100, 128, 255)))  # Fill the path, where QBrush can set the fill color
 
 
 # if __name__ == "__main__":
