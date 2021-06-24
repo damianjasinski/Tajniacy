@@ -1,0 +1,10 @@
+{
+    "configurations": [
+        {
+            "name": "Tajniacy: Client",
+            "type": "python",
+            "request": "launch",
+            "module": "client.UserLoginScreen"
+        }
+    ]
+}
