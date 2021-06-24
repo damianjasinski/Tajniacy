@@ -24,7 +24,10 @@ class UserInterface(QMainWindow):
         # The main layout
         mainLayout = QVBoxLayout()
         # Layout with teams and cards
-        playLayout = QHBoxLayout()
+        self.playLayout = QHBoxLayout()
+        #cardsWidget layout
+        self.cardsLayout = QHBoxLayout()
+        #Spymaster assets layout
         bottomLayout = QHBoxLayout()
         # Button layout
         buttonLayout = QHBoxLayout()
@@ -43,31 +46,37 @@ class UserInterface(QMainWindow):
         titleLabel.setStyleSheet(
             "font-family: 'Berlin Sans FB'; font-size:80px; cursive; color: hsl(50, 80%, 50%);")
         titleLabel.setAlignment(Qt.AlignHCenter)
-        mainLayout.addStretch(5)
+        mainLayout.addStretch(4)
         mainLayout.addWidget(titleLabel)
         
 
         # Play (main window for cards and teams) layout set
         mainLayout.addStretch(1)
-        mainLayout.addLayout(playLayout)
+        mainLayout.addLayout(self.playLayout)
         mainLayout.addStretch(5)
         mainLayout.addLayout(bottomLayout)
-        playLayout.setAlignment(Qt.AlignVCenter)
+        self.playLayout.setAlignment(Qt.AlignVCenter)
 
         # TeamRed
         teamRed = TeamWidget("red")
-        playLayout.addWidget(teamRed, 10)
+        self.playLayout.addWidget(teamRed, 1)
 
         # temporary line
         teamRed.addSpymaster("Test (Spymaster)")
 
-        # Cards
-        cards = CardsWidget()
-        playLayout.addWidget(cards, 50)
+        #add cardsLayout to play Layout
+        self.playLayout.addLayout(self.cardsLayout,4)
+
+        # StartGame button, cards will show up after button is clicked
+        self.startGameBtn = QPushButton("Start Game", clicked = self.onStartGameClicked)
+        self.startGameBtn.setStyleSheet("font-family:Berlin Sans FB; font-size:35px;border-radius:10px;")
+        self.startGameBtn.setMaximumSize(550,50)
+        self.cardsLayout.addWidget(self.startGameBtn)
+
 
         # TeamBlue
         teamBlue = TeamWidget("blue")
-        playLayout.addWidget(teamBlue, 10)
+        self.playLayout.addWidget(teamBlue, 1)
 
         # temporary line
         teamBlue.addSpymaster("Test (Spymaster)")
@@ -100,6 +109,15 @@ class UserInterface(QMainWindow):
             button.setMinimumSize(150,50)
             buttonLayout.addWidget(button)
             mainLayout.addStretch(8)
+
+
+    def onStartGameClicked(self):
+        self.cardsWidget = CardsWidget();
+        self.cardsLayout.itemAt(0).widget().deleteLater()
+        self.cardsLayout.addWidget(self.cardsWidget)
+
+        
+        
 
     # can be called to show which team should move
     def setBackgroundImage(self, teamColor):
