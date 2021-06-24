@@ -1,4 +1,4 @@
-from FileReader import FileReader
+from client.FileReader import FileReader
 import sys
 import os
 import threading
@@ -28,9 +28,11 @@ class Card(QFrame):
                                     "color : black")
 
         self.voteBtn = QPushButton("Vote")
-        self.voteBtn.setStyleSheet("font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
+        self.voteBtn.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
         self.chooseBtn = QPushButton("Choose")
-        self.chooseBtn.setStyleSheet("font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
+        self.chooseBtn.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
         self.chooseBtn.clicked.connect(self.revealColor)
 
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
@@ -38,21 +40,21 @@ class Card(QFrame):
         self.mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
 
         self.setStyleSheet(
-            "#Card {background-image: url(Images/" + self.color + "Card.png)}")
+            "#Card {background-image: url(resources/" + self.color + "Card.png)}")
 
     def setColor(self, color):
         self.color = color
 
     def revealColor(self):
         self.setStyleSheet(
-            "background-image: url(Images/" + self.color + "Card.png)")
+            "background-image: url(resources/" + self.color + "Card.png)")
         self.mainLayout.itemAt(0).widget().deleteLater()
         self.mainLayout.itemAt(1).widget().deleteLater()
         self.mainLayout.itemAt(2).widget().deleteLater()
 
     def spyMasterView(self):
         self.setStyleSheet(
-            "#Card {background-image: url(Images/" + self.color + "Card.png)}")
+            "#Card {background-image: url(resources/" + self.color + "Card.png)}")
         self.wordUsed.setMaximumSize(100, 30)
         self.mainLayout.itemAt(1).widget().deleteLater()
         self.mainLayout.itemAt(2).widget().deleteLater()

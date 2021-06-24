@@ -5,7 +5,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from qt_material import apply_stylesheet
 
-from GUI import UserInterface
+from client.GUI import UserInterface
 
 
 class UserLoginScreen(QMainWindow):
@@ -25,26 +25,32 @@ class UserLoginScreen(QMainWindow):
 
         self.titleWidget = QLabel("Welcome")
         self.titleWidget.setAlignment(Qt.AlignHCenter)
-        self.titleWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:70px;")
+        self.titleWidget.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:70px;")
         self.nameLabel = QLabel("Codename:")
-        self.nameLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:25px;")
+        self.nameLabel.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:25px;")
         self.nameLabel.setFixedWidth(200)
         self.nameLabel.setAlignment(Qt.AlignHCenter)
         self.ipLabel = QLabel("Ip:")
-        self.ipLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:25px;")
+        self.ipLabel.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:25px;")
         self.ipLabel.setFixedWidth(200)
         self.ipLabel.setAlignment(Qt.AlignHCenter)
 
         self.nameInput = QLineEdit()
         self.ipInput = QLineEdit()
-        self.ipInput.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
-        self.nameInput.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
-
+        self.ipInput.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px;")
+        self.nameInput.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px;")
 
         self.redButton = QPushButton("Connect")
-        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px;background-color: rgb(222, 20, 22); border-radius:10px;")
+        self.redButton.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:15px;background-color: rgb(222, 20, 22); border-radius:10px;")
         self.blueButton = QPushButton("Cancel")
-        self.blueButton.setStyleSheet("background-color: rgb(0, 0, 255); font-family:Berlin Sans FB; font-size:15px;border-radius:10px;")
+        self.blueButton.setStyleSheet(
+            "background-color: rgb(0, 0, 255); font-family:Berlin Sans FB; font-size:15px;border-radius:10px;")
 
         self.mainLayout.addWidget(self.titleWidget, 0, 0, 0, 0)
         self.mainLayout.addWidget(self.nameLabel, 1, 0)
