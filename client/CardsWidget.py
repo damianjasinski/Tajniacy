@@ -28,7 +28,9 @@ class Card(QFrame):
                                     "color : black")
 
         self.voteBtn = QPushButton("Vote")
+        self.voteBtn.setStyleSheet("font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
         self.chooseBtn = QPushButton("Choose")
+        self.chooseBtn.setStyleSheet("font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
         self.chooseBtn.clicked.connect(self.revealColor)
 
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)

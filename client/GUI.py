@@ -73,7 +73,7 @@ class UserInterface(QMainWindow):
         teamBlue.addSpymaster("Test (Spymaster)")
 
         if self.spymasterView:
-            cards.showSpymasterView()
+            #cards.showSpymasterView()
             # bottomLayout
             bottomLayout.setAlignment(Qt.AlignHCenter)
             bottomLayout.addWidget(QLabel(""),3)
@@ -96,7 +96,7 @@ class UserInterface(QMainWindow):
             mainLayout.addLayout(buttonLayout)
             buttonLayout.setAlignment(Qt.AlignHCenter)
             button = QPushButton("Zatwierdz")
-            button.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
+            button.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
             button.setMinimumSize(150,50)
             buttonLayout.addWidget(button)
             mainLayout.addStretch(8)

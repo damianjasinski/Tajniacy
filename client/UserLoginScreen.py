@@ -42,9 +42,9 @@ class UserLoginScreen(QMainWindow):
 
 
         self.redButton = QPushButton("Connect")
-        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px;background-color: rgb(222, 20, 22);")
+        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px;background-color: rgb(222, 20, 22); border-radius:10px;")
         self.blueButton = QPushButton("Cancel")
-        self.blueButton.setStyleSheet("background-color: rgb(0, 0, 255); font-family:Berlin Sans FB; font-size:15px;")
+        self.blueButton.setStyleSheet("background-color: rgb(0, 0, 255); font-family:Berlin Sans FB; font-size:15px;border-radius:10px;")
 
         self.mainLayout.addWidget(self.titleWidget, 0, 0, 0, 0)
         self.mainLayout.addWidget(self.nameLabel, 1, 0)
