@@ -60,12 +60,13 @@ class UserInterface(QMainWindow):
         # TeamRed
         teamRed = TeamWidget("red")
         self.playLayout.addWidget(teamRed, 1)
+        self.playLayout.addWidget(QLabel("                                                                 "))
 
         # temporary line
         teamRed.addSpymaster("Test (Spymaster)")
 
         #add cardsLayout to play Layout
-        self.playLayout.addLayout(self.cardsLayout,4)
+        self.playLayout.addLayout(self.cardsLayout,5)
 
         # StartGame button, cards will show up after button is clicked
         self.startGameBtn = QPushButton("Start Game", clicked = self.onStartGameClicked)
@@ -75,9 +76,9 @@ class UserInterface(QMainWindow):
 
 
         # TeamBlue
+        self.playLayout.addWidget(QLabel("                                                                 "))
         teamBlue = TeamWidget("blue")
         self.playLayout.addWidget(teamBlue, 1)
-
         # temporary line
         teamBlue.addSpymaster("Test (Spymaster)")
 
@@ -115,6 +116,8 @@ class UserInterface(QMainWindow):
         self.cardsWidget = CardsWidget();
         self.cardsLayout.itemAt(0).widget().deleteLater()
         self.cardsLayout.addWidget(self.cardsWidget)
+        self.playLayout.itemAt(1).widget().deleteLater()
+        self.playLayout.itemAt(3).widget().deleteLater()
 
         
         
