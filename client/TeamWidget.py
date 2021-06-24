@@ -18,20 +18,41 @@ class TeamWidget(QWidget):
         self.setLayout(mainLayout)
         self.setMinimumSize(60, 60)
 
-        self.listWidget = QListWidget()
-        self.listWidget.setEnabled(False)                 
-        self.listWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
+
+
+        #Spymasters table
+        self.spylistWidget = QListWidget()
+        self.spylistWidget.setEnabled(False)                 
+        self.spylistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
                                       "border: 2px solid "+color)
 
-        #self.listWidget.setStyleSheet("QListWidget::item {color: yellow}")
+        #Button join as spymaster
+        self.spyButton = QPushButton("Join as spymaster", clicked = self.addSpymaster)
+        self.spyButton.setStyleSheet("font-family:Berlin Sans FB; font-size:14px; Background-color:")
+        mainLayout.addWidget(self.spyButton)
 
-        mainLayout.addWidget(self.listWidget)
+        mainLayout.addWidget(self.spylistWidget,1)
+
+        #Players table
+        self.playlistWidget = QListWidget()
+        self.playlistWidget.setEnabled(False)                 
+        self.playlistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
+                                      "border: 2px solid "+color)
+        #button join as player
+        self.playerButton = QPushButton("Join as player", clicked = self.addPlayer)
+        self.playerButton.setStyleSheet("font-family:Berlin Sans FB; font-size:14px; Background-color:")
+        mainLayout.addWidget(self.playerButton)
+        mainLayout.addWidget(self.playlistWidget,2)                              
+
+
+    def addSpymaster(self, playerName):
+        self.spylistWidget.addItem(playerName)
 
     def addPlayer(self, playerName):
-        self.listWidget.addItem(playerName)
+        self.playlistWidget.addItem(playerName)
 
     def removePlayer(self, playerPosition):
-        self.listWidget.takeItem(self.listWidget.itemAt(playerPosition))
+        self.listWidget.takeItem(self.spylistWidget.itemAt(playerPosition))
 
     
     # def paintEvent(self, event):

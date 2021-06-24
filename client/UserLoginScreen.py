@@ -27,11 +27,11 @@ class UserLoginScreen(QMainWindow):
         self.titleWidget.setAlignment(Qt.AlignHCenter)
         self.titleWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:70px;")
         self.nameLabel = QLabel("Codename:")
-        self.nameLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
+        self.nameLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:25px;")
         self.nameLabel.setFixedWidth(200)
         self.nameLabel.setAlignment(Qt.AlignHCenter)
         self.ipLabel = QLabel("Ip:")
-        self.ipLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
+        self.ipLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:25px;")
         self.ipLabel.setFixedWidth(200)
         self.ipLabel.setAlignment(Qt.AlignHCenter)
 
@@ -41,9 +41,9 @@ class UserLoginScreen(QMainWindow):
         self.nameInput.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
 
 
-        self.redButton = QPushButton("Red")
-        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px;background-color: rgb(255, 0, 0);")
-        self.blueButton = QPushButton("Blue")
+        self.redButton = QPushButton("Connect")
+        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:15px;background-color: rgb(222, 20, 22);")
+        self.blueButton = QPushButton("Cancel")
         self.blueButton.setStyleSheet("background-color: rgb(0, 0, 255); font-family:Berlin Sans FB; font-size:15px;")
 
         self.mainLayout.addWidget(self.titleWidget, 0, 0, 0, 0)
@@ -54,10 +54,10 @@ class UserLoginScreen(QMainWindow):
         self.mainLayout.addWidget(self.blueButton, 3, 0)
         self.mainLayout.addWidget(self.redButton, 3, 1)
 
-        self.redButton.clicked.connect(self.onRedButtonClicked)
-        self.blueButton.clicked.connect(self.onBlueButtonClicked)
+        self.redButton.clicked.connect(self.onAcceptButtonClicked)
+        self.blueButton.clicked.connect(self.onCancelButtonClicked)
 
-    def onRedButtonClicked(self):
+    def onAcceptButtonClicked(self):
         self.username = self.nameInput.text
         self.ip = self.ipInput.text
         self.color = "red"
@@ -65,12 +65,7 @@ class UserLoginScreen(QMainWindow):
         self.ui.show()
         self.close()
 
-    def onBlueButtonClicked(self):
-        self.username = None
-        self.ip = None
-        self.color = "blue"
-        self.ui = UserInterface(self.username, self.color)
-        self.ui.show()
+    def onCancelButtonClicked(self):
         self.close()
 
 

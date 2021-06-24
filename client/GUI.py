@@ -59,7 +59,7 @@ class UserInterface(QMainWindow):
         playLayout.addWidget(teamRed, 10)
 
         # temporary line
-        teamRed.addPlayer("Test (Spymaster)")
+        teamRed.addSpymaster("Test (Spymaster)")
 
         # Cards
         cards = CardsWidget()
@@ -70,7 +70,7 @@ class UserInterface(QMainWindow):
         playLayout.addWidget(teamBlue, 10)
 
         # temporary line
-        teamBlue.addPlayer("Test (Spymaster)")
+        teamBlue.addSpymaster("Test (Spymaster)")
 
         if self.spymasterView:
             cards.showSpymasterView()
