@@ -5,8 +5,8 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtGui import QBrush, QColor, QFont, QFontMetrics, QIcon, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from client.TeamWidget import TeamWidget
-from client.CardsWidget import CardsWidget
+from TeamWidget import TeamWidget
+from CardsWidget import CardsWidget
 from qt_material import apply_stylesheet
 
 

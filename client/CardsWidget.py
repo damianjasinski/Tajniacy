@@ -1,4 +1,4 @@
-from client.FileReader import FileReader
+from FileReader import FileReader
 import sys
 import os
 import threading
