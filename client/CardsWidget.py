@@ -24,7 +24,7 @@ class Card(QFrame):
 
         self.wordUsed = QLabel(str(text).upper())
         self.wordUsed.setAlignment(Qt.AlignCenter)
-        self.wordUsed.setStyleSheet("background-color : white;"
+        self.wordUsed.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:14px;"
                                     "color : black")
 
         self.voteBtn = QPushButton("Vote")

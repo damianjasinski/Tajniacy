@@ -1,6 +1,8 @@
 import sys
 
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QBrush, QColor, QFont, QFontMetrics, QPainter, QPainterPath, QPen
+from PyQt5.QtCore import Qt
 
 
 class TeamWidget(QWidget):
@@ -17,8 +19,8 @@ class TeamWidget(QWidget):
         self.setMinimumSize(60, 60)
 
         self.listWidget = QListWidget()
-        self.listWidget.setEnabled(False)
-        self.listWidget.setStyleSheet("Background-color: "+self._color+";"
+        self.listWidget.setEnabled(False)                 
+        self.listWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
                                       "border: 2px solid "+color)
 
         #self.listWidget.setStyleSheet("QListWidget::item {color: yellow}")
@@ -31,14 +33,14 @@ class TeamWidget(QWidget):
     def removePlayer(self, playerPosition):
         self.listWidget.takeItem(self.listWidget.itemAt(playerPosition))
 
-    #
+    
     # def paintEvent(self, event):
     #     self.text = None
     #     if self._color == "red":
     #         self.text = "Red"
     #     elif self._color == "blue":
     #         self.text = "Blue"
-    #
+    
     #     self.font = QFont("Trebuchet MS", 40)
     #     metrics = QFontMetrics(self.font)
     #     painter = QPainter(self)
@@ -57,15 +59,15 @@ class TeamWidget(QWidget):
     #     painter.setRenderHint(QPainter.Antialiasing)  # Turn on anti-aliasing, otherwise it looks ugly
     #     painter.strokePath(path, pen)  # Generate path
     #     painter.drawPath(path)  # Draw path
-    #
+    
     #     if self._color == "red":
     #         painter.fillPath(path, QBrush(QColor(255, 100, 100)))  # Fill the path, where QBrush can set the fill color
-    #     elif self._color == "blue":
-    #         painter.fillPath(path, QBrush(QColor(100, 128, 255)))  # Fill the path, where QBrush can set the fill color
+        #elif self._color == "blue":
+            #painter.fillPath(path, QBrush(QColor(100, 128, 255)))  # Fill the path, where QBrush can set the fill color
 
 
-if __name__ == "__main__":
-    app = QApplication(sys.argv)
-    dialogi = TeamWidget()
-    dialogi.show()
-    sys.exit(app.exec_())
+# if __name__ == "__main__":
+#     app = QApplication(sys.argv)
+#     dialogi = TeamWidget()
+#     dialogi.show()
+#     sys.exit(app.exec_())

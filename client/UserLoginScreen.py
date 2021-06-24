@@ -25,20 +25,27 @@ class UserLoginScreen(QMainWindow):
 
         self.titleWidget = QLabel("Welcome")
         self.titleWidget.setAlignment(Qt.AlignHCenter)
-        self.titleWidget.setFont(QFont('Arial', 50))
+        self.titleWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:70px;")
         self.nameLabel = QLabel("Codename:")
+        self.nameLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
         self.nameLabel.setFixedWidth(200)
         self.nameLabel.setAlignment(Qt.AlignHCenter)
         self.ipLabel = QLabel("Ip:")
+        self.ipLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
         self.ipLabel.setFixedWidth(200)
         self.ipLabel.setAlignment(Qt.AlignHCenter)
 
         self.nameInput = QLineEdit()
         self.ipInput = QLineEdit()
+        self.ipInput.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
+        self.nameInput.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
+
 
         self.redButton = QPushButton("Red")
+        self.redButton.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
         self.redButton.setStyleSheet("background-color: red;")
         self.blueButton = QPushButton("Blue")
+        self.blueButton.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
         self.blueButton.setStyleSheet("background-color: blue;")
 
         self.mainLayout.addWidget(self.titleWidget, 0, 0, 0, 0)

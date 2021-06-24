@@ -2,8 +2,7 @@ import sys
 import os
 import threading
 from PyQt5 import QtCore, QtWidgets, QtGui
-from PyQt5.QtGui import (QPixmap, QPainter, QBrush,
-                         QPen, QColor, QPainterPath, QIcon)
+from PyQt5.QtGui import QBrush, QColor, QFont, QFontMetrics, QIcon, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
 from TeamWidget import TeamWidget
@@ -27,6 +26,8 @@ class UserInterface(QMainWindow):
         # Layout with teams and cards
         playLayout = QHBoxLayout()
         bottomLayout = QHBoxLayout()
+        # Button layout
+        buttonLayout = QHBoxLayout()
 
         # setCentralWidget
         mainWidget = QWidget()
@@ -40,9 +41,11 @@ class UserInterface(QMainWindow):
         # Title Label
         titleLabel = QLabel("Tajniacy!")
         titleLabel.setStyleSheet(
-            "font-family: 'Trebuchet MS'; font-style:italic; font-weight:bold; font-size:60px; cursive; color: hsl(50, 80%, 50%);")
+            "font-family: 'Berlin Sans FB'; font-size:80px; cursive; color: hsl(50, 80%, 50%);")
         titleLabel.setAlignment(Qt.AlignHCenter)
+        mainLayout.addStretch(5)
         mainLayout.addWidget(titleLabel)
+        
 
         # Play (main window for cards and teams) layout set
         mainLayout.addStretch(1)
@@ -72,19 +75,31 @@ class UserInterface(QMainWindow):
         if self.spymasterView:
             cards.showSpymasterView()
             # bottomLayout
+            bottomLayout.setAlignment(Qt.AlignHCenter)
+            bottomLayout.addWidget(QLabel(""),3)
             self.spymasterInput = QLineEdit()
+            self.spymasterInput.setAlignment(Qt.AlignCenter)
             self.spymasterInput.setPlaceholderText(
                 "Podaj slowo opisujace karty oraz wybierz ilosc kart do odgadniecia")
+            self.spymasterInput.setFocus(False)
+            self.spymasterInput.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
             self.numberOfCards = QComboBox()
+            self.numberOfCards.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
             for i in range(8):
                 self.numberOfCards.addItem(str(i+1))
 
-            bottomLayout.addWidget(self.spymasterInput)
+            bottomLayout.addWidget(self.spymasterInput,2)
             bottomLayout.addWidget(self.numberOfCards)
+            bottomLayout.addWidget(QLabel(""),3)
 
             # button
+            mainLayout.addLayout(buttonLayout)
+            buttonLayout.setAlignment(Qt.AlignHCenter)
             button = QPushButton("Zatwierdz")
-            mainLayout.addWidget(button)
+            button.setStyleSheet("font-family:Berlin Sans FB; font-size:18px;")
+            button.setMinimumSize(150,50)
+            buttonLayout.addWidget(button)
+            mainLayout.addStretch(8)
 
     # can be called to show which team should move
     def setBackgroundImage(self, teamColor):
@@ -101,6 +116,8 @@ class UserInterface(QMainWindow):
                                "background-repeat: no-repeat ;"
                                "background-position: center}")
 
+
+   
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
