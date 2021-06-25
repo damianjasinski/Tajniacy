@@ -26,23 +26,32 @@ class Card(QFrame):
         self.wordUsed = QLabel(str(text).upper())
         self.wordUsed.setAlignment(Qt.AlignCenter)
         self.wordUsed.setStyleSheet(
-            "background-color:white; font-family: 'Berlin Sans FB'; font-size:14px;"
-            "color : black")
+            "background-color:white; font-family: 'Berlin Sans FB'; font-size:17px; color: black")
 
         self.voteBtn = QPushButton("Vote")
         self.voteBtn.setStyleSheet(
-            "font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
+            "font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
         self.chooseBtn = QPushButton("Choose")
         self.chooseBtn.setStyleSheet(
-            "font-family:Berlin Sans FB; font-size:10px;border-radius:10px;")
+            "font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
         self.chooseBtn.clicked.connect(self.revealColor)
 
+        # vote counter
+        self.votesLabel = QLabel("")
+        self.votesLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:20px; color: black")
+        self.votesLabel.setAlignment(Qt.AlignHCenter)
+
+        self.mainLayout.addWidget(self.votesLabel, 0, 1, 1, 2)
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
         self.mainLayout.addWidget(self.voteBtn, 3, 1, 1, 1)
         self.mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
 
         self.setStyleSheet(
             "#Card {background-image: url(resources/" + self.color + "Card.png)}")
+
+    # method to set votes on card
+    def setVotes(self, votes):
+        self.votesLabel.setText(f"{votes}")
 
     def setColor(self, color):
         self.color = color
@@ -83,6 +92,18 @@ class CardsWidget(QWidget):
 
                 self.cardList.append(card)
                 self.mainLayout.addWidget(card, row + 1, column + 1, 1, 1)
+
+    # hide vote and choose buttons
+    def hideButtons(self):
+        for card in self.cardList:
+            card.voteBtn.hide()
+            card.chooseBtn.hide()
+
+    # show vote and choose buttons
+    def showButtons(self):
+        for card in self.cardList:
+            card.voteBtn.show()
+            card.chooseBtn.show()
 
     # use this to get spyMaster view of board
     def showSpymasterView(self):

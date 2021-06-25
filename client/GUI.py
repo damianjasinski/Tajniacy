@@ -25,11 +25,10 @@ class MainWindow(QMainWindow):
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
         self.setWindowTitle("Tajniacy")
-
+        self.cardsWidget = None
         self.spymasterView = False
 
         # Layouts set
-
         # The main layout
         mainLayout = QVBoxLayout()
         # Layout with teams and cards
@@ -93,7 +92,6 @@ class MainWindow(QMainWindow):
         self.playLayout.addWidget(self.teamBlue, 1)
 
         if self.spymasterView:
-            # cards.showSpymasterView()
             # bottomLayout
             bottomLayout.setAlignment(Qt.AlignHCenter)
             bottomLayout.addWidget(QLabel(""), 3)
@@ -117,11 +115,11 @@ class MainWindow(QMainWindow):
             # button
             mainLayout.addLayout(buttonLayout)
             buttonLayout.setAlignment(Qt.AlignHCenter)
-            button = QPushButton("Zatwierdz")
-            button.setStyleSheet(
+            self.spymasterButton = QPushButton("Zatwierdz")
+            self.spymasterButton.setStyleSheet(
                 "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
-            button.setMinimumSize(150, 50)
-            buttonLayout.addWidget(button)
+            self.spymasterButton.setMinimumSize(150, 50)
+            buttonLayout.addWidget(self.spymasterButton)
             mainLayout.addStretch(8)
 
     def onStartGameClicked(self):
@@ -129,6 +127,26 @@ class MainWindow(QMainWindow):
 
     def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
         self.netClient.sendData(ChooseTeamC2S(team, spymaster))
+
+    def hideSpymasterFields(self):
+        self.spymasterButton.hide()
+        self.spymasterInput.hide()
+
+    def showSpymasterFields(self):
+        self.spymasterButton.show()
+        self.spymasterInput.show()
+
+    def showCardsBtn(self):
+        try:
+            self.cardsWidget.showButtons()
+        except AttributeError:
+            print("Game is not yet started")
+
+    def hideCardsBtn(self):
+        try:
+            self.cardsWidget.hideButtons()
+        except AttributeError:
+            print("Game is not yet started")
 
     # can be called to show which team should move
 
