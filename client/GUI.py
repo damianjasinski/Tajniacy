@@ -113,8 +113,41 @@ class UserInterface(QMainWindow):
             "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
         self.spymasterButton.setMinimumSize(150, 50)
         buttonLayout.addWidget(self.spymasterButton)
+
+        #spymaster tip
+        self.spyTipLabel = QLabel("")
+        self.spyTipLabel.setMinimumSize(115,30)
+        self.spyTipLabel.setAlignment(Qt.AlignCenter)
+        self.spyTipLabel.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
+        #self.spyTipLabel.hide()
+
+        #spymaster cards number
+        self.spyCardNumber = QLabel("")
+        self.spyCardNumber.setMinimumSize(25,30)
+        self.spyCardNumber.setAlignment(Qt.AlignCenter)
+        self.spyCardNumber.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
+        #self.spyCardNumber.hide()
+
+
+        buttonLayout.addWidget(self.spyTipLabel)
+        buttonLayout.addWidget(self.spyCardNumber)
         mainLayout.addStretch(8)
+        self.setSpymasterTipLabels("JanPaulo", 999)
         
+    
+    def setSpymasterTipLabels(self, word, number):
+        self.spyTipLabel.setText(str(word).upper())
+        self.spyCardNumber.setText(str(number))
+
+    def hideSpymasterTipLabels(self):
+        self.spyTipLabel.hide()
+        self.spyCardNumber.hide()
+    
+    def showSpymasterTipLabels(self):
+        self.spyTipLabel.show()
+        self.spyCardNumber.show()
+
+
 
     def hideSpymasterFields(self):
         self.spymasterButton.hide()
