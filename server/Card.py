@@ -7,6 +7,3 @@ class Card():
         self.color = CardColor.NEUTRAL
         self.shown = False
         self.votes = []
-
-    def set_color(self, color):
-        self.color = color

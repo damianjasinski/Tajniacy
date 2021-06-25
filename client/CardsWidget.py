@@ -2,6 +2,7 @@ import sys
 import os
 import threading
 import random
+from typing import List
 from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtGui import (QFont, QFontMetrics, QPixmap,
                          QPainter, QBrush, QPen, QColor, QPainterPath, QIcon)
@@ -23,8 +24,9 @@ class Card(QFrame):
 
         self.wordUsed = QLabel(str(text).upper())
         self.wordUsed.setAlignment(Qt.AlignCenter)
-        self.wordUsed.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:14px;"
-                                    "color : black")
+        self.wordUsed.setStyleSheet(
+            "background-color:white; font-family: 'Berlin Sans FB'; font-size:14px;"
+            "color : black")
 
         self.voteBtn = QPushButton("Vote")
         self.voteBtn.setStyleSheet(
@@ -64,12 +66,20 @@ class CardsWidget(QWidget):
     def __init__(self):
         super().__init__()
 
-        mainLayout = QGridLayout()
-        self.setLayout(mainLayout)
+        self.cardList = []
+
+        self.mainLayout = QGridLayout()
+        self.setLayout(self.mainLayout)
         self.setMinimumSize(500, 500)
 
-    # use this to get spyMaster view of board
+    def addCards(self, cards: List[str]):
+        for row in range(5):
+            for column in range(5):
+                card = Card(cards[row + 5 * column])
+                self.cardList.append(card)
+                self.mainLayout.addWidget(card, row + 1, column + 1, 1, 1)
 
+    # use this to get spyMaster view of board
     def showSpymasterView(self):
         for card in self.cardList:
             card.spyMasterView()

@@ -39,19 +39,19 @@ class Game():
         # randomizing cards color
         for i in range(8):
             card = random.choice(tempCardList)
-            card.set_color(CardColor.BLUE)
+            card.color = CardColor.BLUE
             tempCardList.remove(card)
         for i in range(8):
             card = random.choice(tempCardList)
-            card.set_color(CardColor.RED)
+            card.color = CardColor.RED
             tempCardList.remove(card)
         for i in range(7):
             card = random.choice(tempCardList)
-            card.set_color(CardColor.NEUTRAL)
+            card.color = CardColor.NEUTRAL
             tempCardList.remove(card)
 
         card = random.choice(tempCardList)
-        card.set_color(CardColor.BLACK)
+        card.color = CardColor.BLACK
         tempCardList.remove(card)
 
         print("Cards generated!")

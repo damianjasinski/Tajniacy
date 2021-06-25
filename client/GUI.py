@@ -1,3 +1,4 @@
+from shared.c2s.GameStartC2S import GameStartC2S
 from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
 from shared.Team import Team
 from shared.c2s.HandshakeC2S import HandshakeC2S
@@ -124,11 +125,7 @@ class MainWindow(QMainWindow):
             mainLayout.addStretch(8)
 
     def onStartGameClicked(self):
-        self.cardsWidget = CardsWidget()
-        self.cardsLayout.itemAt(0).widget().deleteLater()
-        self.cardsLayout.addWidget(self.cardsWidget)
-        self.playLayout.itemAt(1).widget().deleteLater()
-        self.playLayout.itemAt(3).widget().deleteLater()
+        self.netClient.sendData(GameStartC2S())
 
     def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
         self.netClient.sendData(ChooseTeamC2S(team, spymaster))

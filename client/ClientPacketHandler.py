@@ -1,3 +1,4 @@
+from client.CardsWidget import CardsWidget
 from client.TeamWidget import TeamWidget
 import pickle
 from shared.Player import Player
@@ -58,30 +59,6 @@ class ClientPacketHandler(QObject):
         else:
             teamWidget.addPlayer(name)
 
-    def handleCardSelect(self, data: CardSelectS2C):
-        pass
-
-    def handleCardVote(self, data: CardVoteS2C):
-        pass
-
-    def handleChooseTeam(self, data: ChooseTeamS2C):
-        self.mainWindow.teamRed.removePlayer(data.playerName)
-        self.mainWindow.teamRed.removeSpymaster(data.playerName)
-
-        self.mainWindow.teamBlue.removePlayer(data.playerName)
-        self.mainWindow.teamBlue.removeSpymaster(data.playerName)
-
-        if data.team == Team.RED:
-            self.addPlayerToTeam(data.playerName, data.spymaster, self.mainWindow.teamRed)
-        elif data.team == Team.BLUE:
-            self.addPlayerToTeam(data.playerName, data.spymaster, self.mainWindow.teamBlue)
-
-    def handleGameEnd(self, data: GameEndS2C):
-        pass
-
-    def handleGameStart(self, data: GameStartS2C):
-        pass
-
     def handleHandshake(self, data: HandshakeS2C):
         for player in data.players:
             if player.team == Team.RED:
@@ -95,11 +72,40 @@ class ClientPacketHandler(QObject):
         elif data.player.team == Team.BLUE:
             self.addPlayerToTeam(data.player, self.mainWindow.teamBlue)
 
-    def handleSpymasterHint(self, data: SpymasterHintS2C):
-        pass
+    def handleChooseTeam(self, data: ChooseTeamS2C):
+        self.mainWindow.teamRed.removePlayer(data.playerName)
+        self.mainWindow.teamRed.removeSpymaster(data.playerName)
+
+        self.mainWindow.teamBlue.removePlayer(data.playerName)
+        self.mainWindow.teamBlue.removeSpymaster(data.playerName)
+
+        if data.team == Team.RED:
+            self.addPlayerToTeam(data.playerName, data.spymaster, self.mainWindow.teamRed)
+        elif data.team == Team.BLUE:
+            self.addPlayerToTeam(data.playerName, data.spymaster, self.mainWindow.teamBlue)
+
+    def handleGameStart(self, data: GameStartS2C):
+        self.mainWindow.cardsWidget = CardsWidget()
+        self.mainWindow.cardsWidget.addCards(data.words)
+        self.mainWindow.cardsLayout.itemAt(0).widget().deleteLater()
+        self.mainWindow.cardsLayout.addWidget(self.mainWindow.cardsWidget)
+        self.mainWindow.playLayout.itemAt(1).widget().deleteLater()
+        self.mainWindow.playLayout.itemAt(3).widget().deleteLater()
 
     def handleSwitchPlayingSide(self, data: SwitchPlayingSideS2C):
         pass
 
+    def handleCardSelect(self, data: CardSelectS2C):
+        pass
+
+    def handleCardVote(self, data: CardVoteS2C):
+        pass
+
+    def handleSpymasterHint(self, data: SpymasterHintS2C):
+        pass
+
     def handleTeamScore(self, data: TeamScoreS2C):
+        pass
+
+    def handleGameEnd(self, data: GameEndS2C):
         pass

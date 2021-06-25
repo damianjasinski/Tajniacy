@@ -84,9 +84,10 @@ class ServerPacketHandler():
 
     def handleGameStart(self, data: GameStartC2S, param):
         self.game.generateWords()
-        words = map(lambda card: card.text, self.game.cards)
+        words = [card.text for card in self.game.cards]
 
         self.sendToAll(GameStartS2C(words))
+        # TODO: send to spymaster cards' colors
         self.sendToAll(SwitchPlayingSideS2C(Team.RED, True))
 
     def handleCardVote(self, data: CardVoteC2S, param):
