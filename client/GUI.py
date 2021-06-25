@@ -111,8 +111,8 @@ class UserInterface(QMainWindow):
             self.spymasterButton = QPushButton("Zatwierdz")
             self.spymasterButton.setStyleSheet(
                 "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
-            self.spymasterButtonbutton.setMinimumSize(150, 50)
-            buttonLayout.addWidget(self.spymasterButtonbutton)
+            self.spymasterButton.setMinimumSize(150, 50)
+            buttonLayout.addWidget(self.spymasterButton)
             mainLayout.addStretch(8)
 
     

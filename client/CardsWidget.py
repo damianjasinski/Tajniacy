@@ -38,7 +38,7 @@ class Card(QFrame):
         
         #vote counter
         self.votesLabel = QLabel("")
-        self.votesLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:21px; color : black")
+        self.votesLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:20px; color : black")
         self.votesLabel.setAlignment(Qt.AlignHCenter)
 
         self.mainLayout.addWidget(self.votesLabel, 0, 1, 1, 2)
