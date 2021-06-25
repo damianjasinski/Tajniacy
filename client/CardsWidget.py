@@ -46,10 +46,16 @@ class Card(QFrame):
         self.voteCounter.setRange(0, 8)
         self.voteCounter.setMinimumSize(160, 20)
         self.voteCounter.setMaximumSize(160, 20)
-        self.voteCounter.setStyleSheet("QProgressBar::chunk {"
-                                       "background-color: white;"
+
+        self.voteCounter.setStyleSheet("QProgressBar"
+                                       "{"
+                                       "background-color:rgba(0,0,0,50);"
+                                       "}"
+                                       "QProgressBar::chunk "
+                                       "{ background-image:url(resources/progChunk2.png);"
                                        "margin: 2px;"
-                                       "width: 16px}")
+                                       "width: 16px;"
+                                       "}")
 
         self.mainLayout.addWidget(self.voteCounter, 0, 1, 1, 2)
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
