@@ -10,9 +10,9 @@ class TeamWidget(QWidget):
     def __init__(self, color):
         super().__init__()
         if color == 'red' or color == 'Red':
-            self._color = "rgba(153, 0, 0, 120)"
+            self._color = "rgba(255, 30, 30, 95)"
         elif color == 'blue' or color == 'Blue':
-            self._color = "rgba(0, 0, 153, 120)"
+            self._color = "rgba(33,79,198, 125)"
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
@@ -20,14 +20,15 @@ class TeamWidget(QWidget):
 
         self.scoreLabel = QLabel("Points: 0")
         self.scoreLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:23px;")
+        self.scoreLabel.setAlignment(Qt.AlignCenter)
         mainLayout.addWidget(self.scoreLabel)
 
         #Spymasters table
         self.spylistWidget = QListWidget()
         self.spylistWidget.setParent(self)
         self.spylistWidget.setEnabled(False)                 
-        self.spylistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
-                                      "border: 2px solid "+color)
+        self.spylistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; border-radius:10px; Background-color:  "+self._color+";"
+                                      "border: 0px solid "+color)
 
         #Button join as spymaster
         self.spyButton = QPushButton("Join as spymaster", clicked = self.addSpymaster)
@@ -39,8 +40,8 @@ class TeamWidget(QWidget):
         #Players table
         self.playlistWidget = QListWidget()
         self.playlistWidget.setEnabled(False)                 
-        self.playlistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
-                                      "border: 2px solid "+color)
+        self.playlistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; border-radius:10px; Background-color: "+self._color+";"
+                                      "border: 0px solid "+color)
         #button join as player
         self.playerButton = QPushButton("Join as player", clicked = self.addPlayer)
         self.playerButton.setStyleSheet("font-family:Berlin Sans FB; font-size:14px;  border-radius:10px;")

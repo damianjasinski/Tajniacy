@@ -132,7 +132,7 @@ class UserInterface(QMainWindow):
         buttonLayout.addWidget(self.spyTipLabel)
         buttonLayout.addWidget(self.spyCardNumber)
         mainLayout.addStretch(8)
-        self.setSpymasterTipLabels("JanPaulo", 999)
+        self.setSpymasterTipLabels("JanPaulo", 9)
         
     
     def setSpymasterTipLabels(self, word, number):
