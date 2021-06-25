@@ -61,12 +61,13 @@ class Card(QFrame):
 
     # method to set votes on card
     def setVotes(self, value):
-        if value > 8:
-            self.voteCounter.setValue(8)
-        elif value < 0:
-            self.voteCounter.setValue(0)
-        else:
-            self.voteCounter.setValue(value)
+        if self.isRevealed == False:
+            if value > 8:
+                self.voteCounter.setValue(8)
+            elif value < 0:
+                self.voteCounter.setValue(0)
+            else:
+                self.voteCounter.setValue(value)
 
     def setColor(self, color):
         self.color = color
@@ -77,10 +78,10 @@ class Card(QFrame):
             "background-image: url(resources/" + self.color + "Card.png)")
         self.mainLayout.removeWidget(self.wordUsed)
         self.wordUsed.deleteLater()
+        self.mainLayout.removeWidget(self.voteCounter)
+        self.voteCounter.deleteLater()
 
         if self.isSpymasterView == False:
-            self.mainLayout.removeWidget(self.voteCounter)
-            self.voteCounter.deleteLater()
             self.mainLayout.removeWidget(self.voteBtn)
             self.voteBtn.deleteLater()
             self.mainLayout.removeWidget(self.chooseBtn)
@@ -91,8 +92,7 @@ class Card(QFrame):
         self.setStyleSheet(
             "#Card {background-image: url(resources/" + self.color + "Card.png)}")
         self.wordUsed.setMaximumSize(150, 50)
-        self.mainLayout.removeWidget(self.voteCounter)
-        self.voteCounter.deleteLater()
+
         self.mainLayout.removeWidget(self.voteBtn)
         self.voteBtn.deleteLater()
         self.mainLayout.removeWidget(self.chooseBtn)
@@ -130,6 +130,13 @@ class CardsWidget(QWidget):
                 card.setColor(color.name.lower())
                 card.revealColor()
                 break
+
+    def findCard(self, text: str) -> Card:
+        for card in self.cardList:
+            if card.text == text:
+                return card
+
+        return None
 
     # hide vote and choose buttons
     def hideButtons(self):

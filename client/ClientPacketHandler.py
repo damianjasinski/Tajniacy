@@ -120,8 +120,10 @@ class ClientPacketHandler(QObject):
         pass
 
     def handleCardVote(self, data: CardVoteS2C):
-        # TODO: add when label will be ready
-        pass
+        card = self.mainWindow.cardsWidget.findCard(data.cardText)
+
+        if card != None:
+            card.setVotes(len(data.votes))
 
     def handleSpymasterHint(self, data: SpymasterHintS2C):
         # TODO: add when label will be ready

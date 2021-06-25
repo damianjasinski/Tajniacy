@@ -65,6 +65,13 @@ class ServerPacketHandler():
 
         return score
 
+    def resetCardVotes(self):
+        for card in self.game.cards:
+
+            if len(card.votes) > 0:
+                card.votes.clear()
+                self.sendToAll(CardVoteS2C(card.text, []))
+
     def handleGameEnd(self, winningTeam: Team):
         # TODO: add logic for ending game
 
@@ -160,6 +167,8 @@ class ServerPacketHandler():
                             playingTeam = Team.RED
 
                         self.game.currentTeam = playingTeam
+
+                        self.resetCardVotes()
 
                         self.sendToAll(SwitchPlayingSideS2C(playingTeam, True))
                 break

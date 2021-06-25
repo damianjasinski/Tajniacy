@@ -17,7 +17,7 @@ class Server():
         self.packetHandler = ServerPacketHandler(self)
 
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.serverSocket.bind((socket.gethostname(), port))
+        self.serverSocket.bind(("", port))
         self.serverSocket.listen()
         print(f"Server started at port {port}")
 
