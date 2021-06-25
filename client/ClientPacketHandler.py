@@ -86,11 +86,15 @@ class ClientPacketHandler(QObject):
 
     def handleGameStart(self, data: GameStartS2C):
         self.mainWindow.cardsWidget = CardsWidget()
-        self.mainWindow.cardsWidget.addCards(data.words)
         self.mainWindow.cardsLayout.itemAt(0).widget().deleteLater()
         self.mainWindow.cardsLayout.addWidget(self.mainWindow.cardsWidget)
         self.mainWindow.playLayout.itemAt(1).widget().deleteLater()
         self.mainWindow.playLayout.itemAt(3).widget().deleteLater()
+
+        self.mainWindow.cardsWidget.addCards(data.cards)
+
+        if data.spymaster:
+            self.mainWindow.cardsWidget.showSpymasterView()
 
     def handleSwitchPlayingSide(self, data: SwitchPlayingSideS2C):
         pass

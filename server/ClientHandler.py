@@ -34,3 +34,4 @@ class ClientHandler(threading.Thread):
 
         print("Disconnected")
         self.server.game.removePlayer(self.player)
+        self.server.clientHandlers.remove(self)

@@ -1,3 +1,4 @@
+from shared.SharedCard import SharedCard
 import sys
 import os
 import threading
@@ -72,10 +73,14 @@ class CardsWidget(QWidget):
         self.setLayout(self.mainLayout)
         self.setMinimumSize(500, 500)
 
-    def addCards(self, cards: List[str]):
+    def addCards(self, cards: List[SharedCard]):
         for row in range(5):
             for column in range(5):
-                card = Card(cards[row + 5 * column])
+                sharedCard = cards[row + 5 * column]
+                card = Card(sharedCard.name)
+
+                card.setColor(sharedCard.color.name.lower())
+
                 self.cardList.append(card)
                 self.mainLayout.addWidget(card, row + 1, column + 1, 1, 1)
 

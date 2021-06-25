@@ -1,4 +1,3 @@
-from shared.c2s.HandshakeC2S import HandshakeC2S
 from client.NetClient import NetClient
 import sys
 

@@ -16,6 +16,7 @@ from shared.s2c.PlayerJoinedS2C import PlayerJoinedS2C
 from shared.s2c.SpymasterHintS2C import SpymasterHintS2C
 from shared.s2c.SwitchPlayingSideS2C import SwitchPlayingSideS2C
 from shared.s2c.TeamScoreS2C import TeamScoreS2C
+from shared.SharedCard import SharedCard
 from shared.synchronized import synchronized
 from shared.Team import Team
 
@@ -84,10 +85,19 @@ class ServerPacketHandler():
 
     def handleGameStart(self, data: GameStartC2S, param):
         self.game.generateWords()
-        words = [card.text for card in self.game.cards]
 
-        self.sendToAll(GameStartS2C(words))
-        # TODO: send to spymaster cards' colors
+        playerPacket = GameStartS2C(
+            [SharedCard(card.text, CardColor.NEUTRAL) for card in self.game.cards], False)
+        spymasterPacket = GameStartS2C(
+            [SharedCard(card.text, card.color) for card in self.game.cards], True)
+
+        for handler in self.server.clientHandlers:
+            if handler.player.team != Team.NONE:
+                if handler.player.spymaster:
+                    handler.send(spymasterPacket)
+                else:
+                    handler.send(playerPacket)
+
         self.sendToAll(SwitchPlayingSideS2C(Team.RED, True))
 
     def handleCardVote(self, data: CardVoteC2S, param):
