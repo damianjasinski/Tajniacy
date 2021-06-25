@@ -17,7 +17,7 @@ class Server():
         self.packetHandler = ServerPacketHandler(self)
 
         self.serverSocket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.serverSocket.bind(("127.0.0.1", port))
+        self.serverSocket.bind((socket.gethostname(), port))
         self.serverSocket.listen()
         print(f"Server started at port {port}")
 
@@ -36,7 +36,7 @@ class Server():
 
 
 def main():
-    server = Server(4123)
+    server = Server(3414)
     server.run()
 
 

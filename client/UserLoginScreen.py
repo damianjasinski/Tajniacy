@@ -66,7 +66,7 @@ class UserLoginScreen(QMainWindow):
         self.username = self.nameInput.text()
         self.ip = self.ipInput.text()
 
-        self.netClient = NetClient(self.ip, 4123)
+        self.netClient = NetClient(self.ip, 3414)
         self.netClient.onConnect.connect(self.onSocketConnect)
         self.netClient.onFail.connect(self.onSocketFail)
         self.netClient.start()
