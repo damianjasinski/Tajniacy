@@ -36,7 +36,7 @@ class TeamWidget(QWidget):
         self.spyButton = QPushButton(
             "Join as spymaster", clicked=lambda: self.onJoinSpymaster.emit())
         self.spyButton.setStyleSheet(
-            "font-family:Berlin Sans FB; font-size:15px; border-radius:10px;")
+            "font-family:Berlin Sans FB; font-size:14px; border-radius:10px;")
         mainLayout.addWidget(self.spyButton)
 
         mainLayout.addWidget(self.spylistWidget, 1)
@@ -51,7 +51,7 @@ class TeamWidget(QWidget):
         self.playerButton = QPushButton(
             "Join as player", clicked=lambda: self.onJoinPlayer.emit())
         self.playerButton.setStyleSheet(
-            "font-family:Berlin Sans FB; font-size:15px;  border-radius:10px;")
+            "font-family:Berlin Sans FB; font-size:14px;  border-radius:10px;")
         mainLayout.addWidget(self.playerButton)
         mainLayout.addWidget(self.playlistWidget, 2)
 

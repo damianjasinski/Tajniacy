@@ -26,7 +26,6 @@ class MainWindow(QMainWindow):
         self.setMaximumSize(1920, 1080)
         self.setWindowTitle("Tajniacy")
         self.cardsWidget = None
-        self.spymasterView = False
 
         # Layouts set
         # The main layout
@@ -91,50 +90,46 @@ class MainWindow(QMainWindow):
         self.teamBlue.onJoinSpymaster.connect(lambda: self.onPlayerSwitchTeam(Team.BLUE, True))
         self.playLayout.addWidget(self.teamBlue, 1)
 
-        if self.spymasterView:
-            # bottomLayout
-            bottomLayout.setAlignment(Qt.AlignHCenter)
-            bottomLayout.addWidget(QLabel(""), 3)
-            self.spymasterInput = QLineEdit()
-            self.spymasterInput.setAlignment(Qt.AlignCenter)
-            self.spymasterInput.setPlaceholderText(
-                "Podaj slowo opisujace karty oraz wybierz ilosc kart do odgadniecia")
-            self.spymasterInput.setFocus(False)
-            self.spymasterInput.setStyleSheet(
-                "font-family:Berlin Sans FB; font-size:18px;")
-            self.numberOfCards = QComboBox()
-            self.numberOfCards.setStyleSheet(
-                "font-family:Berlin Sans FB; font-size:18px;")
-            for i in range(8):
-                self.numberOfCards.addItem(str(i+1))
-
-            bottomLayout.addWidget(self.spymasterInput, 2)
-            bottomLayout.addWidget(self.numberOfCards)
-            bottomLayout.addWidget(QLabel(""), 3)
-
-            # button
-            mainLayout.addLayout(buttonLayout)
-            buttonLayout.setAlignment(Qt.AlignHCenter)
-            self.spymasterButton = QPushButton("Zatwierdz")
-            self.spymasterButton.setStyleSheet(
-                "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
-            self.spymasterButton.setMinimumSize(150, 50)
-            buttonLayout.addWidget(self.spymasterButton)
-            mainLayout.addStretch(8)
-
-    def onStartGameClicked(self):
-        self.netClient.sendData(GameStartC2S())
-
-    def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
-        self.netClient.sendData(ChooseTeamC2S(team, spymaster))
+        # bottomLayout
+        bottomLayout.setAlignment(Qt.AlignHCenter)
+        bottomLayout.addWidget(QLabel(""), 3)
+        self.spymasterInput = QLineEdit()
+        self.spymasterInput.setAlignment(Qt.AlignCenter)
+        self.spymasterInput.setPlaceholderText(
+            "Podaj slowo opisujace karty oraz wybierz ilosc kart do odgadniecia")
+        self.spymasterInput.setFocus(False)
+        self.spymasterInput.hide()
+        self.spymasterInput.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px;")
+        self.numberOfCards = QComboBox()
+        self.numberOfCards.hide()
+        self.numberOfCards.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px;")
+        for i in range(8):
+            self.numberOfCards.addItem(str(i+1))
+        bottomLayout.addWidget(self.spymasterInput, 2)
+        bottomLayout.addWidget(self.numberOfCards)
+        bottomLayout.addWidget(QLabel(""), 3)
+        # button
+        mainLayout.addLayout(buttonLayout)
+        buttonLayout.setAlignment(Qt.AlignHCenter)
+        self.spymasterButton = QPushButton("Zatwierdz")
+        self.spymasterButton.hide()
+        self.spymasterButton.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
+        self.spymasterButton.setMinimumSize(150, 50)
+        buttonLayout.addWidget(self.spymasterButton)
+        mainLayout.addStretch(8)
 
     def hideSpymasterFields(self):
         self.spymasterButton.hide()
         self.spymasterInput.hide()
+        self.numberOfCards.hide()
 
     def showSpymasterFields(self):
         self.spymasterButton.show()
         self.spymasterInput.show()
+        self.numberOfCards.show()
 
     def showCardsBtn(self):
         try:
