@@ -17,7 +17,7 @@ class UserInterface(QMainWindow):
         self.setMaximumSize(1920, 1080)
         self.setWindowTitle("Tajniacy")
         self.cardsWidget = None
-        self.spymasterView = True
+
 
         # Layouts set
         # The main layout
@@ -83,47 +83,48 @@ class UserInterface(QMainWindow):
         # temporary line
         teamBlue.addSpymaster("Test (Spymaster)")
 
-        if self.spymasterView:
-            # cards.showSpymasterView()
-            # bottomLayout
-            bottomLayout.setAlignment(Qt.AlignHCenter)
-            bottomLayout.addWidget(QLabel(""), 3)
-            self.spymasterInput = QLineEdit()
-            self.spymasterInput.setAlignment(Qt.AlignCenter)
-            self.spymasterInput.setPlaceholderText(
-                "Podaj slowo opisujace karty oraz wybierz ilosc kart do odgadniecia")
-            self.spymasterInput.setFocus(False)
-            self.spymasterInput.setStyleSheet(
-                "font-family:Berlin Sans FB; font-size:18px;")
-            self.numberOfCards = QComboBox()
-            self.numberOfCards.setStyleSheet(
-                "font-family:Berlin Sans FB; font-size:18px;")
-            for i in range(8):
-                self.numberOfCards.addItem(str(i+1))
-
-            bottomLayout.addWidget(self.spymasterInput, 2)
-            bottomLayout.addWidget(self.numberOfCards)
-            bottomLayout.addWidget(QLabel(""), 3)
-
-            # button
-            mainLayout.addLayout(buttonLayout)
-            buttonLayout.setAlignment(Qt.AlignHCenter)
-            self.spymasterButton = QPushButton("Zatwierdz")
-            self.spymasterButton.setStyleSheet(
-                "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
-            self.spymasterButton.setMinimumSize(150, 50)
-            buttonLayout.addWidget(self.spymasterButton)
-            mainLayout.addStretch(8)
-
+        # cards.showSpymasterView()
+        # bottomLayout
+        bottomLayout.setAlignment(Qt.AlignHCenter)
+        bottomLayout.addWidget(QLabel(""), 3)
+        self.spymasterInput = QLineEdit()
+        self.spymasterInput.setAlignment(Qt.AlignCenter)
+        self.spymasterInput.setPlaceholderText(
+            "Podaj slowo opisujace karty oraz wybierz ilosc kart do odgadniecia")
+        self.spymasterInput.setFocus(False)
+        self.spymasterInput.hide()
+        self.spymasterInput.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px;")
+        self.numberOfCards = QComboBox()
+        self.numberOfCards.hide()
+        self.numberOfCards.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px;")
+        for i in range(8):
+            self.numberOfCards.addItem(str(i+1))
+        bottomLayout.addWidget(self.spymasterInput, 2)
+        bottomLayout.addWidget(self.numberOfCards)
+        bottomLayout.addWidget(QLabel(""), 3)
+        # button
+        mainLayout.addLayout(buttonLayout)
+        buttonLayout.setAlignment(Qt.AlignHCenter)
+        self.spymasterButton = QPushButton("Zatwierdz")
+        self.spymasterButton.hide()
+        self.spymasterButton.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
+        self.spymasterButton.setMinimumSize(150, 50)
+        buttonLayout.addWidget(self.spymasterButton)
+        mainLayout.addStretch(8)
     
 
     def hideSpymasterFields(self):
         self.spymasterButton.hide()
         self.spymasterInput.hide()
+        self.numberOfCards.hide()
     
     def showSpymasterFields(self):
         self.spymasterButton.show()
         self.spymasterInput.show()
+        self.numberOfCards.show()
 
 
     def showCardsBtn(self):
