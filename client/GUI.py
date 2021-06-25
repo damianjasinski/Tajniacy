@@ -150,7 +150,6 @@ class MainWindow(QMainWindow):
             print("Game is not yet started")
 
     # can be called to show which team should move
-
     def setBackgroundImage(self, teamColor):
         if teamColor == 'Blue':
             self.setStyleSheet(

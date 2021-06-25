@@ -86,7 +86,7 @@ class TeamWidget(QWidget):
         self.addSpymaster.show()
 
     def setPoints(self, points):
-        self.scoreLabel.setText(f"Points: {points}")
+        self.scoreLabel.setText(f"  Points: {points}")
 
     # def paintEvent(self, event):
     #     self.text = None
