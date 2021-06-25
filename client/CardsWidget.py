@@ -54,7 +54,6 @@ class Card(QFrame):
    
 
       
-        self.setVotes(5)
         
 
         self.mainLayout.addWidget(self.voteCounter, 0, 1, 1, 2)
