@@ -3,6 +3,6 @@ from shared.Team import Team
 
 
 class SwitchPlayingSideS2C(Packet):
-    def __init__(self, side: Team, spyMaster: bool):
+    def __init__(self, side: Team, spymaster: bool):
         self.side = side
-        self.spyMaster = spyMaster
+        self.spymaster = spymaster

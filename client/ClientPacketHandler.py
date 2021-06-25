@@ -52,6 +52,7 @@ class ClientPacketHandler(QObject):
 
     def setMainWindow(self, mainWindow: MainWindow):
         self.mainWindow = mainWindow
+        self.game = self.mainWindow.game
 
     def addPlayerToTeam(self, name: str, spymaster: bool, teamWidget: TeamWidget):
         if spymaster:
@@ -84,6 +85,11 @@ class ClientPacketHandler(QObject):
         elif data.team == Team.BLUE:
             self.addPlayerToTeam(data.playerName, data.spymaster, self.mainWindow.teamBlue)
 
+        if self.game.username == data.playerName:
+            print("Ja: ", data.playerName, data.team, data.spymaster)
+            self.game.team = data.team
+            self.game.spymaster = data.spymaster
+
     def handleGameStart(self, data: GameStartS2C):
         self.mainWindow.cardsWidget = CardsWidget()
         self.mainWindow.cardsLayout.itemAt(0).widget().deleteLater()
@@ -91,13 +97,28 @@ class ClientPacketHandler(QObject):
         self.mainWindow.playLayout.itemAt(1).widget().deleteLater()
         self.mainWindow.playLayout.itemAt(3).widget().deleteLater()
 
+        self.mainWindow.teamRed.hideJoinBtns()
+        self.mainWindow.teamBlue.hideJoinBtns()
+
         self.mainWindow.cardsWidget.addCards(data.cards)
+        self.mainWindow.hideCardsBtn()
 
         if data.spymaster:
             self.mainWindow.cardsWidget.showSpymasterView()
 
     def handleSwitchPlayingSide(self, data: SwitchPlayingSideS2C):
-        pass
+        self.mainWindow.setBackgroundImage(data.side.name.lower())
+
+        if self.game.spymaster:
+            if self.game.team == data.side and data.spymaster:
+                self.mainWindow.showSpymasterFields()
+            else:
+                self.mainWindow.hideSpymasterFields()
+        else:
+            if self.game.team == data.side and ~data.spymaster:
+                self.mainWindow.showCardsBtn()
+            else:
+                self.mainWindow.hideCardsBtn()
 
     def handleCardSelect(self, data: CardSelectS2C):
         pass

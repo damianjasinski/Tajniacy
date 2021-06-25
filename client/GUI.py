@@ -1,3 +1,4 @@
+from client.Game import Game
 from shared.c2s.GameStartC2S import GameStartC2S
 from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
 from shared.Team import Team
@@ -17,6 +18,8 @@ from qt_material import apply_stylesheet
 class MainWindow(QMainWindow):
     def __init__(self, username: str, netClient):
         super().__init__()
+
+        self.game = Game(username)
 
         self.netClient = netClient
         self.netClient.setMainWindow(self)
@@ -151,12 +154,12 @@ class MainWindow(QMainWindow):
 
     # can be called to show which team should move
     def setBackgroundImage(self, teamColor):
-        if teamColor == 'Blue':
+        if teamColor == 'blue':
             self.setStyleSheet(
                 "QWidget#mainWidget { background-image: url(resources/backgroundBlue.png);"
                 "background-repeat: no-repeat ;"
                 "background-position: center}")
-        elif teamColor == 'Red':
+        elif teamColor == 'red':
             self.setStyleSheet(
                 "QWidget#mainWidget { background-image: url(resources/backgroundRed.png);"
                 "background-repeat: no-repeat ;"
