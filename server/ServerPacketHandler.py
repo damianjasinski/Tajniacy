@@ -110,9 +110,9 @@ class ServerPacketHandler():
         for card in self.game.cards:
             if card.text == data.cardText:
                 if param.player.name in card.votes:
-                    card.votes.append(param.player.name)
-                else:
                     card.votes.remove(param.player.name)
+                else:
+                    card.votes.append(param.player.name)
 
                 self.sendToAll(CardVoteS2C(card.text, card.votes))
 

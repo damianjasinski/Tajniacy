@@ -1,3 +1,5 @@
+from shared.c2s.CardSelectC2S import CardSelectC2S
+from shared.c2s.CardVoteC2S import CardVoteC2S
 from shared.c2s.SpymasterHintC2S import SpymasterHintC2S
 from client.Game import Game
 from shared.c2s.GameStartC2S import GameStartC2S
@@ -173,7 +175,7 @@ class MainWindow(QMainWindow):
         self.netClient.sendData(CardVoteC2S(text))
 
     def onCardSelect(self, text: str):
-        pass
+        self.netClient.sendData(CardSelectC2S(text))
 
     # can be called to show which team should move
     def setBackgroundImage(self, teamColor):

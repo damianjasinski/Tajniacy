@@ -116,9 +116,11 @@ class ClientPacketHandler(QObject):
                 self.mainWindow.hideCardsBtn()
 
     def handleCardSelect(self, data: CardSelectS2C):
+        self.mainWindow.cardsWidget.revealCard(data.cardText, data.color)
         pass
 
     def handleCardVote(self, data: CardVoteS2C):
+        # TODO: add when label will be ready
         pass
 
     def handleSpymasterHint(self, data: SpymasterHintS2C):

@@ -1,3 +1,4 @@
+from shared.CardColor import CardColor
 from shared.SharedCard import SharedCard
 import sys
 import os
@@ -16,12 +17,17 @@ from qt_material import apply_stylesheet
 class Card(QFrame):
     def __init__(self, cardsWidget, text):
         super().__init__()
+
+        self.text = text
+        self.color = "default"
+        self.isRevealed = False
+        self.isSpymasterView = False
+
         self.setObjectName("Card")
 
         self.mainLayout = QGridLayout()
         self.setLayout(self.mainLayout)
         self.setMinimumSize(170, 100)
-        self.color = "default"
 
         self.wordUsed = QLabel(str(text).upper())
         self.wordUsed.setAlignment(Qt.AlignCenter)
@@ -56,13 +62,17 @@ class Card(QFrame):
         self.color = color
 
     def revealColor(self):
+        self.isRevealed = True
         self.setStyleSheet(
             "background-image: url(resources/" + self.color + "Card.png)")
         self.mainLayout.itemAt(0).widget().deleteLater()
-        self.mainLayout.itemAt(1).widget().deleteLater()
-        self.mainLayout.itemAt(2).widget().deleteLater()
+
+        if self.isSpymasterView == False:
+            self.mainLayout.itemAt(1).widget().deleteLater()
+            self.mainLayout.itemAt(2).widget().deleteLater()
 
     def spyMasterView(self):
+        self.isSpymasterView = True
         self.setStyleSheet(
             "#Card {background-image: url(resources/" + self.color + "Card.png)}")
         self.wordUsed.setMaximumSize(100, 30)
@@ -95,17 +105,26 @@ class CardsWidget(QWidget):
                 self.cardList.append(card)
                 self.mainLayout.addWidget(card, row + 1, column + 1, 1, 1)
 
+    def revealCard(self, text: str, color: CardColor):
+        for card in self.cardList:
+            if card.text == text:
+                card.setColor(color.name.lower())
+                card.revealColor()
+                break
+
     # hide vote and choose buttons
     def hideButtons(self):
         for card in self.cardList:
-            card.voteBtn.hide()
-            card.chooseBtn.hide()
+            if card.isRevealed == False:
+                card.voteBtn.hide()
+                card.chooseBtn.hide()
 
     # show vote and choose buttons
     def showButtons(self):
         for card in self.cardList:
-            card.voteBtn.show()
-            card.chooseBtn.show()
+            if card.isRevealed == False:
+                card.voteBtn.show()
+                card.chooseBtn.show()
 
     # use this to get spyMaster view of board
     def showSpymasterView(self):
