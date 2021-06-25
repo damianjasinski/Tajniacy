@@ -121,6 +121,12 @@ class MainWindow(QMainWindow):
         buttonLayout.addWidget(self.spymasterButton)
         mainLayout.addStretch(8)
 
+    def onStartGameClicked(self):
+        self.netClient.sendData(GameStartC2S())
+
+    def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
+        self.netClient.sendData(ChooseTeamC2S(team, spymaster))
+
     def hideSpymasterFields(self):
         self.spymasterButton.hide()
         self.spymasterInput.hide()
