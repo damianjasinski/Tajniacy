@@ -35,13 +35,17 @@ class Card(QFrame):
             "font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
         self.chooseBtn.clicked.connect(self.revealColor)
 
-        
-        #vote counter
-        self.votesLabel = QLabel("")
-        self.votesLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:20px; color : black")
-        self.votesLabel.setAlignment(Qt.AlignHCenter)
+        # vote counter
+        self.voteCounter = QProgressBar()
+        self.voteCounter.setRange(0, 8)
+        self.voteCounter.setMinimumSize(160, 20)
+        self.voteCounter.setMaximumSize(160, 20)
+        self.voteCounter.setStyleSheet("QProgressBar::chunk {"
+                                       "background-color: white;"
+                                       "margin: 2px;"
+                                       "width: 16px}")
 
-        #self.mainLayout.addWidget(self.votesLabel, 0, 1, 1, 2)
+        self.mainLayout.addWidget(self.voteCounter, 0, 1, 1, 2)
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
         self.mainLayout.addWidget(self.voteBtn, 3, 1, 1, 1)
         self.mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
@@ -49,10 +53,14 @@ class Card(QFrame):
         self.setStyleSheet(
             "#Card {background-image: url(resources/" + self.color + "Card.png)}")
 
-
-    #method to set votes on card
-    def setVotes(self, votes):
-        self.votesLabel.setText(f"{votes}")
+    # method to set votes on card
+    def setVotes(self, value):
+        if value > 8:
+            self.voteCounter.setValue(8)
+        elif value < 0:
+            self.voteCounter.setValue(0)
+        else:
+            self.voteCounter.setValue(value)
 
     def setColor(self, color):
         self.color = color
@@ -60,16 +68,25 @@ class Card(QFrame):
     def revealColor(self):
         self.setStyleSheet(
             "background-image: url(resources/" + self.color + "Card.png)")
-        self.mainLayout.itemAt(0).widget().deleteLater()
-        self.mainLayout.itemAt(1).widget().deleteLater()
-        self.mainLayout.itemAt(2).widget().deleteLater()
+        self.mainLayout.removeWidget(self.voteCounter)
+        self.voteCounter.deleteLater()
+        self.mainLayout.removeWidget(self.wordUsed)
+        self.wordUsed.deleteLater()
+        self.mainLayout.removeWidget(self.voteBtn)
+        self.voteBtn.deleteLater()
+        self.mainLayout.removeWidget(self.chooseBtn)
+        self.chooseBtn.deleteLater()
 
     def spyMasterView(self):
         self.setStyleSheet(
             "#Card {background-image: url(resources/" + self.color + "Card.png)}")
-        self.wordUsed.setMaximumSize(100, 30)
-        self.mainLayout.itemAt(1).widget().deleteLater()
-        self.mainLayout.itemAt(2).widget().deleteLater()
+        self.wordUsed.setMaximumSize(150, 50)
+        self.mainLayout.removeWidget(self.voteCounter)
+        self.voteCounter.deleteLater()
+        self.mainLayout.removeWidget(self.voteBtn)
+        self.voteBtn.deleteLater()
+        self.mainLayout.removeWidget(self.chooseBtn)
+        self.chooseBtn.deleteLater()
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 1, 1)
 
 
@@ -123,18 +140,17 @@ class CardsWidget(QWidget):
             card.setColor("red")
         tempCardList.remove(card)
 
-    #hide vote and choose buttons
+    # hide vote and choose buttons
     def hideButtons(self):
         for card in self.cardList:
             card.voteBtn.hide()
             card.chooseBtn.hide()
 
-    #show vote and choose buttons
+    # show vote and choose buttons
     def showButtons(self):
         for card in self.cardList:
             card.voteBtn.show()
             card.chooseBtn.show()
-                  
 
     # use this to get spyMaster view of board
     def showSpymasterView(self):
