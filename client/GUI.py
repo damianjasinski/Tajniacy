@@ -119,20 +119,19 @@ class UserInterface(QMainWindow):
         self.spyTipLabel.setMinimumSize(115,30)
         self.spyTipLabel.setAlignment(Qt.AlignCenter)
         self.spyTipLabel.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
-        #self.spyTipLabel.hide()
+        self.spyTipLabel.hide()
 
         #spymaster cards number
         self.spyCardNumber = QLabel("")
         self.spyCardNumber.setMinimumSize(25,30)
         self.spyCardNumber.setAlignment(Qt.AlignCenter)
         self.spyCardNumber.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
-        #self.spyCardNumber.hide()
+        self.spyCardNumber.hide()
 
 
         buttonLayout.addWidget(self.spyTipLabel)
         buttonLayout.addWidget(self.spyCardNumber)
         mainLayout.addStretch(8)
-        self.setSpymasterTipLabels("JanPaulo", 9)
         
     
     def setSpymasterTipLabels(self, word, number):
@@ -159,7 +158,7 @@ class UserInterface(QMainWindow):
         self.spymasterInput.show()
         self.numberOfCards.show()
 
-    def teamWin(self, color):
+    def setTitle(self, color):
         self.titleLabel.setText(f"{color} team wins!")
         self.titleLabel.setStyleSheet(
             "font-family: 'Berlin Sans FB'; font-size:80px; cursive; color: "+color+"; ")

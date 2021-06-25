@@ -18,8 +18,8 @@ class TeamWidget(QWidget):
         self.setLayout(mainLayout)
         self.setMinimumSize(60, 60)
 
-        self.scoreLabel = QLabel("Points: 0")
-        self.scoreLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:23px;")
+        self.scoreLabel = QLabel("8")
+        self.scoreLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:28px;")
         self.scoreLabel.setAlignment(Qt.AlignCenter)
         mainLayout.addWidget(self.scoreLabel)
 
@@ -46,7 +46,8 @@ class TeamWidget(QWidget):
         self.playerButton = QPushButton("Join as player", clicked = self.addPlayer)
         self.playerButton.setStyleSheet("font-family:Berlin Sans FB; font-size:14px;  border-radius:10px;")
         mainLayout.addWidget(self.playerButton)
-        mainLayout.addWidget(self.playlistWidget,2)                              
+        mainLayout.addWidget(self.playlistWidget,5)                              
+
 
 
     def addSpymaster(self, playerName):
@@ -69,7 +70,7 @@ class TeamWidget(QWidget):
         self.addSpymaster.show()
 
     def setPoints(self, points):
-        self.scoreLabel.setText(f"  Points: {points}")
+        self.scoreLabel.setText(f"{points}")
 
 
 
