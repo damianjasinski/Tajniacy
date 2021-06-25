@@ -67,10 +67,7 @@ class ServerPacketHandler():
 
     def resetCardVotes(self):
         for card in self.game.cards:
-
-            if len(card.votes) > 0:
-                card.votes.clear()
-                self.sendToAll(CardVoteS2C(card.text, []))
+            card.votes.clear()
 
     def handleGameEnd(self, winningTeam: Team):
         # TODO: add logic for ending game
@@ -168,9 +165,9 @@ class ServerPacketHandler():
 
                         self.game.currentTeam = playingTeam
 
-                        self.resetCardVotes()
-
                         self.sendToAll(SwitchPlayingSideS2C(playingTeam, True))
+
+                        self.resetCardVotes()
                 break
 
     def handleSpymasterHint(self, data: SpymasterHintC2S, param):

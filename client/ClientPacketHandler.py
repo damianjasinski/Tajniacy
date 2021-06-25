@@ -103,6 +103,11 @@ class ClientPacketHandler(QObject):
 
     def handleSwitchPlayingSide(self, data: SwitchPlayingSideS2C):
         self.mainWindow.setBackgroundImage(data.side.name.lower())
+        self.mainWindow.hideSpymasterTipLabels()
+
+        # reset votes
+        for card in self.mainWindow.cardsWidget.cardList:
+            card.setVotes(0)
 
         if self.game.spymaster:
             if self.game.team == data.side and data.spymaster == True:
@@ -126,12 +131,12 @@ class ClientPacketHandler(QObject):
             card.setVotes(len(data.votes))
 
     def handleSpymasterHint(self, data: SpymasterHintS2C):
-        # TODO: add when label will be ready
-        pass
+        self.mainWindow.showSpymasterTipLabels()
+        self.mainWindow.setSpymasterTipLabels(data.hint, data.number)
 
     def handleTeamScore(self, data: TeamScoreS2C):
         self.mainWindow.teamRed.setPoints(data.redTeamScore)
         self.mainWindow.teamBlue.setPoints(data.blueTeamScore)
 
     def handleGameEnd(self, data: GameEndS2C):
-        pass
+        self.mainWindow.hideSpymasterTipLabels()
