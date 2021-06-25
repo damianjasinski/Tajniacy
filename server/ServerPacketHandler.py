@@ -99,6 +99,7 @@ class ServerPacketHandler():
                     handler.send(playerPacket)
 
         self.sendToAll(SwitchPlayingSideS2C(Team.RED, True))
+        self.sendToAll(TeamScoreS2C(8, 8))
 
     def handleCardVote(self, data: CardVoteC2S, param):
         if param.player.team != self.game.currentTeam:

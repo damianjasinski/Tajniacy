@@ -14,7 +14,7 @@ from qt_material import apply_stylesheet
 
 
 class Card(QFrame):
-    def __init__(self, text):
+    def __init__(self, cardsWidget, text):
         super().__init__()
         self.setObjectName("Card")
 
@@ -28,10 +28,10 @@ class Card(QFrame):
         self.wordUsed.setStyleSheet(
             "background-color:white; font-family: 'Berlin Sans FB'; font-size:17px; color: black")
 
-        self.voteBtn = QPushButton("Vote")
+        self.voteBtn = QPushButton("Vote", clicked=lambda: cardsWidget._onVote(text))
         self.voteBtn.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
-        self.chooseBtn = QPushButton("Choose")
+        self.chooseBtn = QPushButton("Choose", clicked=lambda: cardsWidget._onSelect(text))
         self.chooseBtn.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
         self.chooseBtn.clicked.connect(self.revealColor)
@@ -41,7 +41,7 @@ class Card(QFrame):
         self.votesLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:20px; color: black")
         self.votesLabel.setAlignment(Qt.AlignHCenter)
 
-        #self.mainLayout.addWidget(self.votesLabel, 0, 1, 1, 2)
+        # self.mainLayout.addWidget(self.votesLabel, 0, 1, 1, 2)
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
         self.mainLayout.addWidget(self.voteBtn, 3, 1, 1, 1)
         self.mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
@@ -73,6 +73,9 @@ class Card(QFrame):
 
 
 class CardsWidget(QWidget):
+    onVote = pyqtSignal(str)
+    onSelect = pyqtSignal(str)
+
     def __init__(self):
         super().__init__()
 
@@ -86,7 +89,7 @@ class CardsWidget(QWidget):
         for row in range(5):
             for column in range(5):
                 sharedCard = cards[row + 5 * column]
-                card = Card(sharedCard.name)
+                card = Card(self, sharedCard.name)
 
                 card.setColor(sharedCard.color.name.lower())
 
@@ -109,6 +112,12 @@ class CardsWidget(QWidget):
     def showSpymasterView(self):
         for card in self.cardList:
             card.spyMasterView()
+
+    def _onVote(self, text: str):
+        self.onVote.emit(text)
+
+    def _onSelect(self, text: str):
+        self.onSelect.emit(text)
 
 
 if __name__ == "__main__":

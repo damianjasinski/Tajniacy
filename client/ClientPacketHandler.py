@@ -110,12 +110,12 @@ class ClientPacketHandler(QObject):
         self.mainWindow.setBackgroundImage(data.side.name.lower())
 
         if self.game.spymaster:
-            if self.game.team == data.side and data.spymaster:
+            if self.game.team == data.side and data.spymaster == True:
                 self.mainWindow.showSpymasterFields()
             else:
                 self.mainWindow.hideSpymasterFields()
         else:
-            if self.game.team == data.side and ~data.spymaster:
+            if self.game.team == data.side and data.spymaster == False:
                 self.mainWindow.showCardsBtn()
             else:
                 self.mainWindow.hideCardsBtn()
@@ -130,7 +130,8 @@ class ClientPacketHandler(QObject):
         pass
 
     def handleTeamScore(self, data: TeamScoreS2C):
-        pass
+        self.mainWindow.teamRed.setPoints(data.redTeamScore)
+        self.mainWindow.teamBlue.setPoints(data.blueTeamScore)
 
     def handleGameEnd(self, data: GameEndS2C):
         pass
