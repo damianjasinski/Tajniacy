@@ -18,7 +18,9 @@ class TeamWidget(QWidget):
         self.setLayout(mainLayout)
         self.setMinimumSize(60, 60)
 
-
+        self.scoreLabel = QLabel("Points: 0")
+        self.scoreLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:23px;")
+        mainLayout.addWidget(self.scoreLabel)
 
         #Spymasters table
         self.spylistWidget = QListWidget()
@@ -54,7 +56,21 @@ class TeamWidget(QWidget):
     def removePlayer(self, playerPosition):
         self.listWidget.takeItem(self.spylistWidget.itemAt(playerPosition))
 
-    
+
+    #in order to hide buttons from both teams you need to call this method from both instantions.
+    def hideJoinBtns(self):
+        self.playerButton.hide()
+        self.spyButton.hide()
+
+    def showJoinBtns(self):
+        self.playerButton.show()
+        self.addSpymaster.show()
+
+    def setPoints(self, points):
+        self.scoreLabel.setText(f"Points: {points}")
+
+
+
     # def paintEvent(self, event):
     #     self.text = None
     #     if self._color == "red":

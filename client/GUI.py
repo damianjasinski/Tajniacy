@@ -16,11 +16,10 @@ class UserInterface(QMainWindow):
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
         self.setWindowTitle("Tajniacy")
-
+        self.cardsWidget = None
         self.spymasterView = True
 
         # Layouts set
-
         # The main layout
         mainLayout = QVBoxLayout()
         # Layout with teams and cards
@@ -109,12 +108,37 @@ class UserInterface(QMainWindow):
             # button
             mainLayout.addLayout(buttonLayout)
             buttonLayout.setAlignment(Qt.AlignHCenter)
-            button = QPushButton("Zatwierdz")
-            button.setStyleSheet(
+            self.spymasterButton = QPushButton("Zatwierdz")
+            self.spymasterButton.setStyleSheet(
                 "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
-            button.setMinimumSize(150, 50)
-            buttonLayout.addWidget(button)
+            self.spymasterButtonbutton.setMinimumSize(150, 50)
+            buttonLayout.addWidget(self.spymasterButtonbutton)
             mainLayout.addStretch(8)
+
+    
+
+    def hideSpymasterFields(self):
+        self.spymasterButton.hide()
+        self.spymasterInput.hide()
+    
+    def showSpymasterFields(self):
+        self.spymasterButton.show()
+        self.spymasterInput.show()
+
+
+    def showCardsBtn(self):
+        try:
+            self.cardsWidget.showButtons()
+        except AttributeError:
+            print("Game is not yet started")
+
+    def hideCardsBtn(self):
+        try:
+            self.cardsWidget.hideButtons()
+        except AttributeError:
+            print("Game is not yet started")
+
+
 
     def onStartGameClicked(self):
         self.cardsWidget = CardsWidget()
