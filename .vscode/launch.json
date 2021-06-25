@@ -1,6 +1,12 @@
 {
     "configurations": [
         {
+            "name": "Tajniacy: Server",
+            "type": "python",
+            "request": "launch",
+            "module": "server.Server"
+        },
+        {
             "name": "Tajniacy: Client",
             "type": "python",
             "request": "launch",

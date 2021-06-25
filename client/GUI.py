@@ -1,3 +1,11 @@
+from shared.c2s.CardSelectC2S import CardSelectC2S
+from shared.c2s.CardVoteC2S import CardVoteC2S
+from shared.c2s.SpymasterHintC2S import SpymasterHintC2S
+from client.Game import Game
+from shared.c2s.GameStartC2S import GameStartC2S
+from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
+from shared.Team import Team
+from shared.c2s.HandshakeC2S import HandshakeC2S
 import sys
 import os
 import threading
@@ -5,19 +13,25 @@ from PyQt5 import QtCore, QtWidgets, QtGui
 from PyQt5.QtGui import QBrush, QColor, QFont, QFontMetrics, QIcon, QPainter, QPainterPath, QPen, QPixmap
 from PyQt5.QtCore import *
 from PyQt5.QtWidgets import *
-from TeamWidget import TeamWidget
-from CardsWidget import CardsWidget
+from client.TeamWidget import TeamWidget
+from client.CardsWidget import CardsWidget
 from qt_material import apply_stylesheet
 
 
-class UserInterface(QMainWindow):
-    def __init__(self, username: str, color: str):
+class MainWindow(QMainWindow):
+    def __init__(self, username: str, netClient):
         super().__init__()
+
+        self.game = Game(username)
+
+        self.netClient = netClient
+        self.netClient.setMainWindow(self)
+        self.netClient.sendData(HandshakeC2S(username))
+
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
         self.setWindowTitle("Tajniacy")
         self.cardsWidget = None
-
 
         # Layouts set
         # The main layout
@@ -56,13 +70,12 @@ class UserInterface(QMainWindow):
         self.playLayout.setAlignment(Qt.AlignVCenter)
 
         # TeamRed
-        teamRed = TeamWidget("red")
-        self.playLayout.addWidget(teamRed, 1)
+        self.teamRed = TeamWidget("red")
+        self.teamRed.onJoinPlayer.connect(lambda: self.onPlayerSwitchTeam(Team.RED, False))
+        self.teamRed.onJoinSpymaster.connect(lambda: self.onPlayerSwitchTeam(Team.RED, True))
+        self.playLayout.addWidget(self.teamRed, 1)
         self.playLayout.addWidget(
             QLabel("                                                                 "))
-
-        # temporary line
-        teamRed.addSpymaster("Test (Spymaster)")
 
         # add cardsLayout to play Layout
         self.playLayout.addLayout(self.cardsLayout, 5)
@@ -78,12 +91,11 @@ class UserInterface(QMainWindow):
         # TeamBlue
         self.playLayout.addWidget(
             QLabel("                                                                 "))
-        teamBlue = TeamWidget("blue")
-        self.playLayout.addWidget(teamBlue, 1)
-        # temporary line
-        teamBlue.addSpymaster("Test (Spymaster)")
+        self.teamBlue = TeamWidget("blue")
+        self.teamBlue.onJoinPlayer.connect(lambda: self.onPlayerSwitchTeam(Team.BLUE, False))
+        self.teamBlue.onJoinSpymaster.connect(lambda: self.onPlayerSwitchTeam(Team.BLUE, True))
+        self.playLayout.addWidget(self.teamBlue, 1)
 
-        # cards.showSpymasterView()
         # bottomLayout
         bottomLayout.setAlignment(Qt.AlignHCenter)
         bottomLayout.addWidget(QLabel(""), 3)
@@ -107,33 +119,45 @@ class UserInterface(QMainWindow):
         # button
         mainLayout.addLayout(buttonLayout)
         buttonLayout.setAlignment(Qt.AlignHCenter)
-        self.spymasterButton = QPushButton("Zatwierdz")
+        self.spymasterButton = QPushButton("Zatwierdz", clicked=self.onSpymasterButtonClick)
         self.spymasterButton.hide()
         self.spymasterButton.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
         self.spymasterButton.setMinimumSize(150, 50)
         buttonLayout.addWidget(self.spymasterButton)
 
-        #spymaster tip
+        # spymaster tip
         self.spyTipLabel = QLabel("")
-        self.spyTipLabel.setMinimumSize(115,30)
+        self.spyTipLabel.setMinimumSize(115, 30)
         self.spyTipLabel.setAlignment(Qt.AlignCenter)
-        self.spyTipLabel.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
+        self.spyTipLabel.setStyleSheet(
+            "background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
         self.spyTipLabel.hide()
 
-        #spymaster cards number
+        # spymaster cards number
         self.spyCardNumber = QLabel("")
-        self.spyCardNumber.setMinimumSize(25,30)
+        self.spyCardNumber.setMinimumSize(25, 30)
         self.spyCardNumber.setAlignment(Qt.AlignCenter)
-        self.spyCardNumber.setStyleSheet("background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
+        self.spyCardNumber.setStyleSheet(
+            "background-color:white; font-family: 'Berlin Sans FB'; font-size:19px; color : black")
         self.spyCardNumber.hide()
-
 
         buttonLayout.addWidget(self.spyTipLabel)
         buttonLayout.addWidget(self.spyCardNumber)
         mainLayout.addStretch(8)
-        
-    
+
+    def onStartGameClicked(self):
+        self.netClient.sendData(GameStartC2S())
+
+    def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
+        self.netClient.sendData(ChooseTeamC2S(team, spymaster))
+
+    def onSpymasterButtonClick(self):
+        self.netClient.sendData(
+            SpymasterHintC2S(
+                self.spymasterInput.text(),
+                int(self.numberOfCards.currentText())))
+
     def setSpymasterTipLabels(self, word, number):
         self.spyTipLabel.setText(str(word).upper())
         self.spyCardNumber.setText(str(number))
@@ -141,18 +165,16 @@ class UserInterface(QMainWindow):
     def hideSpymasterTipLabels(self):
         self.spyTipLabel.hide()
         self.spyCardNumber.hide()
-    
+
     def showSpymasterTipLabels(self):
         self.spyTipLabel.show()
         self.spyCardNumber.show()
-
-
 
     def hideSpymasterFields(self):
         self.spymasterButton.hide()
         self.spymasterInput.hide()
         self.numberOfCards.hide()
-    
+
     def showSpymasterFields(self):
         self.spymasterButton.show()
         self.spymasterInput.show()
@@ -175,36 +197,44 @@ class UserInterface(QMainWindow):
         except AttributeError:
             print("Game is not yet started")
 
-
-
-    def onStartGameClicked(self):
+    def showCardsWidget(self):
         self.cardsWidget = CardsWidget()
+        self.cardsWidget.onVote.connect(self.onCardVote)
+        self.cardsWidget.onSelect.connect(self.onCardSelect)
+
         self.cardsLayout.itemAt(0).widget().deleteLater()
         self.cardsLayout.addWidget(self.cardsWidget)
         self.playLayout.itemAt(1).widget().deleteLater()
         self.playLayout.itemAt(3).widget().deleteLater()
-    
+
+    def onCardVote(self, text: str):
+        self.netClient.sendData(CardVoteC2S(text))
+
+    def onCardSelect(self, text: str):
+        self.netClient.sendData(CardSelectC2S(text))
 
     # can be called to show which team should move
-
     def setBackgroundImage(self, teamColor):
-        if teamColor == 'Blue':
-            self.setStyleSheet("QWidget#mainWidget { background-image: url(resources/backgroundBlue.png);"
-                               "background-repeat: no-repeat ;"
-                               "background-position: center}")
-        elif teamColor == 'Red':
-            self.setStyleSheet("QWidget#mainWidget { background-image: url(resources/backgroundRed.png);"
-                               "background-repeat: no-repeat ;"
-                               "background-position: center}")
+        if teamColor == 'blue':
+            self.setStyleSheet(
+                "QWidget#mainWidget { background-image: url(resources/backgroundBlue.png);"
+                "background-repeat: no-repeat ;"
+                "background-position: center}")
+        elif teamColor == 'red':
+            self.setStyleSheet(
+                "QWidget#mainWidget { background-image: url(resources/backgroundRed.png);"
+                "background-repeat: no-repeat ;"
+                "background-position: center}")
         else:
-            self.setStyleSheet("QWidget#mainWidget { background-image: url(resources/backgroundNeutral.png);"
-                               "background-repeat: no-repeat ;"
-                               "background-position: center}")
+            self.setStyleSheet(
+                "QWidget#mainWidget { background-image: url(resources/backgroundNeutral.png);"
+                "background-repeat: no-repeat ;"
+                "background-position: center}")
 
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    dialogi = UserInterface("user", "red")
+    dialogi = MainWindow("user")
     dialogi.show()
     apply_stylesheet(app, theme='dark_amber.xml')
     sys.exit(app.exec_())
