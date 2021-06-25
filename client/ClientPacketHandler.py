@@ -31,6 +31,19 @@ class ClientPacketHandler(QObject):
         netClient.onPacketReceive.connect(self.onPacket)
 
         self.packetHandler = PacketHandler()
+        self.packetHandler.register(CardSelectS2C, self.handleCardSelect)
+        self.packetHandler.register(CardVoteS2C, self.handleCardVote)
+        self.packetHandler.register(ChooseTeamS2C, self.handleChooseTeam)
+        self.packetHandler.register(GameEndS2C, self.handleGameEnd)
+        self.packetHandler.register(GameStartS2C, self.handleGameStart)
+        self.packetHandler.register(HandshakeS2C, self.handleHandshake)
+        self.packetHandler.register(PlayerJoinedS2C, self.handlePlayerJoined)
+        self.packetHandler.register(SpymasterHintS2C, self.handleSpymasterHint)
+        self.packetHandler.register(
+            SwitchPlayingSideS2C, self.handleSwitchPlayingSide)
+        self.packetHandler.register(
+            SwitchSpymasterS2C, self.handleSwitchSpymaster)
+        self.packetHandler.register(TeamScoreS2C, self.handleTeamScore)
 
     def onPacket(self, buff):
         data = pickle.loads(buff)
