@@ -1,3 +1,4 @@
+from client.NetClient import NetClient
 import sys
 import os
 import threading
@@ -10,14 +11,17 @@ from client.CardsWidget import CardsWidget
 from qt_material import apply_stylesheet
 
 
-class UserInterface(QMainWindow):
-    def __init__(self, username: str, color: str):
+class MainWindow(QMainWindow):
+    def __init__(self, username: str, netClient: NetClient):
         super().__init__()
+
+        self.netClient = netClient
+
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
         self.setWindowTitle("Tajniacy")
 
-        self.spymasterView = True
+        self.spymasterView = False
 
         # Layouts set
 
@@ -142,7 +146,7 @@ class UserInterface(QMainWindow):
 
 if __name__ == "__main__":
     app = QApplication(sys.argv)
-    dialogi = UserInterface("user", "red")
+    dialogi = MainWindow("user")
     dialogi.show()
     apply_stylesheet(app, theme='dark_amber.xml')
     sys.exit(app.exec_())

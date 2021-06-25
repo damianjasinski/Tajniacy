@@ -7,7 +7,7 @@ from PyQt5.QtCore import *
 from PyQt5.QtGui import *
 from qt_material import apply_stylesheet
 
-from client.GUI import UserInterface
+from client.GUI import MainWindow
 
 
 class UserLoginScreen(QMainWindow):
@@ -15,7 +15,6 @@ class UserLoginScreen(QMainWindow):
         super().__init__()
         self.username = ""
         self.ip = ""
-        self.color = ""
 
         self.netClient = None
 
@@ -42,8 +41,8 @@ class UserLoginScreen(QMainWindow):
         self.ipLabel.setFixedWidth(200)
         self.ipLabel.setAlignment(Qt.AlignHCenter)
 
-        self.nameInput = QLineEdit()
-        self.ipInput = QLineEdit()
+        self.nameInput = QLineEdit("player")
+        self.ipInput = QLineEdit("127.0.0.1")
         self.ipInput.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:18px;")
         self.nameInput.setStyleSheet(
@@ -65,10 +64,10 @@ class UserLoginScreen(QMainWindow):
 
     def onAcceptButtonClicked(self):
 
-        self.username = self.nameInput.text
-        self.ip = self.ipInput.text
+        self.username = self.nameInput.text()
+        self.ip = self.ipInput.text()
 
-        self.netClient = NetClient("127.0.0.1", 4123)
+        self.netClient = NetClient(self.ip, 4123)
         self.netClient.onConnect.connect(self.onSocketConnect)
         self.netClient.onFail.connect(self.onSocketFail)
         self.netClient.start()
@@ -77,14 +76,12 @@ class UserLoginScreen(QMainWindow):
         self.close()
 
     def onSocketConnect(self):
-        self.netClient.sendData(HandshakeC2S("hary"))
-        # self.color = "red"
-        # self.ui = UserInterface(self.username, self.color)
-        # self.ui.show()
-        # self.close()
+        self.ui = MainWindow(self.username, self.netClient)
+        self.ui.show()
+        self.close()
 
     def onSocketFail(self):
-        QMessageBox.warning(self, "cannot", "asdf")
+        QMessageBox.warning(self, "Fail", "Cannot connect!")
 
 
 if __name__ == "__main__":
