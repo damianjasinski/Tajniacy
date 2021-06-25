@@ -55,12 +55,12 @@ class MainWindow(QMainWindow):
         self.setBackgroundImage("none")
 
         # Title Label
-        titleLabel = QLabel("Tajniacy!")
-        titleLabel.setStyleSheet(
+        self.titleLabel = QLabel("Tajniacy!")
+        self.titleLabel.setStyleSheet(
             "font-family: 'Berlin Sans FB'; font-size:80px; cursive; color: hsl(50, 80%, 50%);")
-        titleLabel.setAlignment(Qt.AlignHCenter)
+        self.titleLabel.setAlignment(Qt.AlignHCenter)
         mainLayout.addStretch(4)
-        mainLayout.addWidget(titleLabel)
+        mainLayout.addWidget(self.titleLabel)
 
         # Play (main window for cards and teams) layout set
         mainLayout.addStretch(1)
@@ -179,6 +179,11 @@ class MainWindow(QMainWindow):
         self.spymasterButton.show()
         self.spymasterInput.show()
         self.numberOfCards.show()
+
+    def setTitle(self, color):
+        self.titleLabel.setText(f"{color} team wins!")
+        self.titleLabel.setStyleSheet(
+            "font-family: 'Berlin Sans FB'; font-size:80px; cursive; color: "+color+"; ")
 
     def showCardsBtn(self):
         try:
