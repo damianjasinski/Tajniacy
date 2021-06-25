@@ -127,6 +127,7 @@ class ClientPacketHandler(QObject):
         pass
 
     def handleSpymasterHint(self, data: SpymasterHintS2C):
+        # TODO: add when label will be ready
         pass
 
     def handleTeamScore(self, data: TeamScoreS2C):

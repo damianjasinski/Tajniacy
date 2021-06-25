@@ -1,3 +1,4 @@
+from shared.c2s.SpymasterHintC2S import SpymasterHintC2S
 from client.Game import Game
 from shared.c2s.GameStartC2S import GameStartC2S
 from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
@@ -116,7 +117,7 @@ class MainWindow(QMainWindow):
         # button
         mainLayout.addLayout(buttonLayout)
         buttonLayout.setAlignment(Qt.AlignHCenter)
-        self.spymasterButton = QPushButton("Zatwierdz")
+        self.spymasterButton = QPushButton("Zatwierdz", clicked=self.onSpymasterButtonClick)
         self.spymasterButton.hide()
         self.spymasterButton.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:18px; border-radius:10px;")
@@ -129,6 +130,12 @@ class MainWindow(QMainWindow):
 
     def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
         self.netClient.sendData(ChooseTeamC2S(team, spymaster))
+
+    def onSpymasterButtonClick(self):
+        self.netClient.sendData(
+            SpymasterHintC2S(
+                self.spymasterInput.text(),
+                int(self.numberOfCards.currentText())))
 
     def hideSpymasterFields(self):
         self.spymasterButton.hide()

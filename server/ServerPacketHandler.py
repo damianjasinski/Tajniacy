@@ -98,7 +98,9 @@ class ServerPacketHandler():
                 else:
                     handler.send(playerPacket)
 
-        self.sendToAll(SwitchPlayingSideS2C(Team.RED, True))
+        self.game.currentTeam = Team.RED
+
+        self.sendToAll(SwitchPlayingSideS2C(self.game.currentTeam, True))
         self.sendToAll(TeamScoreS2C(8, 8))
 
     def handleCardVote(self, data: CardVoteC2S, param):
@@ -166,4 +168,4 @@ class ServerPacketHandler():
         self.game.cardToGuess = data.number + 1
 
         self.sendToAll(SwitchPlayingSideS2C(self.game.currentTeam, False))
-        self.sendToAll(SpymasterHintS2C(data.cardText, data.number))
+        self.sendToAll(SpymasterHintS2C(data.hint, data.number))
