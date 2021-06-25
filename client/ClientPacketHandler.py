@@ -140,3 +140,10 @@ class ClientPacketHandler(QObject):
 
     def handleGameEnd(self, data: GameEndS2C):
         self.mainWindow.hideSpymasterTipLabels()
+
+        if self.game.spymaster:
+            self.mainWindow.hideSpymasterFields()
+        else:
+            self.mainWindow.hideCardsBtn()
+
+        self.mainWindow.setTitle(data.winningTeam.name)

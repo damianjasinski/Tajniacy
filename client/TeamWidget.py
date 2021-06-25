@@ -21,7 +21,7 @@ class TeamWidget(QWidget):
         self.setLayout(mainLayout)
         self.setMinimumSize(60, 60)
 
-        self.scoreLabel = QLabel("8")
+        self.scoreLabel = QLabel("")
         self.scoreLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:28px;")
         self.scoreLabel.setAlignment(Qt.AlignCenter)
         mainLayout.addWidget(self.scoreLabel)

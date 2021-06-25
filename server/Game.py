@@ -41,11 +41,11 @@ class Game():
             card = random.choice(tempCardList)
             card.color = CardColor.BLUE
             tempCardList.remove(card)
-        for i in range(8):
+        for i in range(9):
             card = random.choice(tempCardList)
             card.color = CardColor.RED
             tempCardList.remove(card)
-        for i in range(7):
+        for i in range(6):
             card = random.choice(tempCardList)
             card.color = CardColor.NEUTRAL
             tempCardList.remove(card)

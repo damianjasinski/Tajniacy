@@ -57,13 +57,13 @@ class ServerPacketHandler():
         elif team == Team.BLUE:
             cardColor = CardColor.BLUE
 
-        score = 8
+        cardsLeft = 0
 
         for card in self.game.cards:
-            if card.color == cardColor and card.shown:
-                score -= 1
+            if card.color == cardColor and card.shown == False:
+                cardsLeft += 1
 
-        return score
+        return cardsLeft
 
     def resetCardVotes(self):
         for card in self.game.cards:
@@ -105,7 +105,7 @@ class ServerPacketHandler():
         self.game.currentTeam = Team.RED
 
         self.sendToAll(SwitchPlayingSideS2C(self.game.currentTeam, True))
-        self.sendToAll(TeamScoreS2C(8, 8))
+        self.sendToAll(TeamScoreS2C(self.countTeamScore(Team.RED), self.countTeamScore(Team.BLUE)))
 
     def handleCardVote(self, data: CardVoteC2S, param):
         if param.player.team != self.game.currentTeam:
