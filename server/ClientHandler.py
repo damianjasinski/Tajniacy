@@ -17,7 +17,7 @@ class ClientHandler(threading.Thread):
 
     @synchronized
     def send(self, data):
-        self.socket.send(pickle.dumps(data))
+        self.socket.sendall(pickle.dumps(data))
 
     def run(self):
         try:

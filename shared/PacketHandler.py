@@ -12,4 +12,4 @@ class PacketHandler():
         self.handlers[hash(packet.__class__)](packet)
 
     def handleWithParam(self, packet, param):
-        self.handleers[hash(packet.__class__)](packet, param)
+        self.handlers[hash(packet.__class__)](packet, param)
