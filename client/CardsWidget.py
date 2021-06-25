@@ -19,7 +19,7 @@ class Card(QFrame):
 
         self.mainLayout = QGridLayout()
         self.setLayout(self.mainLayout)
-        self.setMinimumSize(150, 100)
+        self.setMinimumSize(170, 100)
         self.color = "default"
 
         self.wordUsed = QLabel(str(text).upper())
@@ -41,7 +41,7 @@ class Card(QFrame):
         self.votesLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:20px; color : black")
         self.votesLabel.setAlignment(Qt.AlignHCenter)
 
-        self.mainLayout.addWidget(self.votesLabel, 0, 1, 1, 2)
+        #self.mainLayout.addWidget(self.votesLabel, 0, 1, 1, 2)
         self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 2)
         self.mainLayout.addWidget(self.voteBtn, 3, 1, 1, 1)
         self.mainLayout.addWidget(self.chooseBtn, 3, 2, 1, 1)
