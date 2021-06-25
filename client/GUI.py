@@ -159,6 +159,22 @@ class MainWindow(QMainWindow):
         except AttributeError:
             print("Game is not yet started")
 
+    def showCardsWidget(self):
+        self.cardsWidget = CardsWidget()
+        self.cardsWidget.onVote.connect(self.onCardVote)
+        self.cardsWidget.onSelect.connect(self.onCardSelect)
+
+        self.cardsLayout.itemAt(0).widget().deleteLater()
+        self.cardsLayout.addWidget(self.cardsWidget)
+        self.playLayout.itemAt(1).widget().deleteLater()
+        self.playLayout.itemAt(3).widget().deleteLater()
+
+    def onCardVote(self, text: str):
+        self.netClient.sendData(CardVoteC2S(text))
+
+    def onCardSelect(self, text: str):
+        pass
+
     # can be called to show which team should move
     def setBackgroundImage(self, teamColor):
         if teamColor == 'blue':

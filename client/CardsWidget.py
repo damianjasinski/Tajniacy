@@ -34,7 +34,6 @@ class Card(QFrame):
         self.chooseBtn = QPushButton("Choose", clicked=lambda: cardsWidget._onSelect(text))
         self.chooseBtn.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:12px;border-radius:10px;")
-        self.chooseBtn.clicked.connect(self.revealColor)
 
         # vote counter
         self.votesLabel = QLabel("")

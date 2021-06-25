@@ -109,7 +109,7 @@ class ServerPacketHandler():
 
         for card in self.game.cards:
             if card.text == data.cardText:
-                if data.add:
+                if param.player.name in card.votes:
                     card.votes.append(param.player.name)
                 else:
                     card.votes.remove(param.player.name)

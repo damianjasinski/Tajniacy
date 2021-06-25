@@ -91,12 +91,7 @@ class ClientPacketHandler(QObject):
             self.game.spymaster = data.spymaster
 
     def handleGameStart(self, data: GameStartS2C):
-        self.mainWindow.cardsWidget = CardsWidget()
-        self.mainWindow.cardsLayout.itemAt(0).widget().deleteLater()
-        self.mainWindow.cardsLayout.addWidget(self.mainWindow.cardsWidget)
-        self.mainWindow.playLayout.itemAt(1).widget().deleteLater()
-        self.mainWindow.playLayout.itemAt(3).widget().deleteLater()
-
+        self.mainWindow.showCardsWidget()
         self.mainWindow.teamRed.hideJoinBtns()
         self.mainWindow.teamBlue.hideJoinBtns()
 

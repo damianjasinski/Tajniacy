@@ -2,6 +2,5 @@ from shared.Packet import Packet
 
 
 class CardVoteC2S(Packet):
-    def __init__(self, cardText, add: bool):
+    def __init__(self, cardText):
         self.cardText = cardText
-        self.add = add
