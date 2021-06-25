@@ -19,6 +19,9 @@ class NetClient(QThread):
         self._isRunning = True
         self._packetHandler = ClientPacketHandler(self)
 
+    def setMainWindow(self, mainWindow):
+        self._packetHandler.setMainWindow(mainWindow)
+
     def run(self):
         try:
             self._socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)

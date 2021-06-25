@@ -1,11 +1,14 @@
 import sys
+from PyQt5 import QtCore
 
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import QBrush, QColor, QFont, QFontMetrics, QPainter, QPainterPath, QPen
-from PyQt5.QtCore import Qt
+from PyQt5.QtCore import Qt, pyqtSignal
 
 
 class TeamWidget(QWidget):
+    onJoinSpymaster = pyqtSignal()
+    onJoinPlayer = pyqtSignal()
 
     def __init__(self, color):
         super().__init__()
@@ -21,12 +24,13 @@ class TeamWidget(QWidget):
         # Spymasters table
         self.spylistWidget = QListWidget()
         self.spylistWidget.setEnabled(False)
-        self.spylistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
-                                         "border: 2px solid "+color)
+        self.spylistWidget.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px; Background-color: " + self._color + ";"
+            "border: 2px solid " + color)
 
         # Button join as spymaster
         self.spyButton = QPushButton(
-            "Join as spymaster", clicked=self.addSpymaster)
+            "Join as spymaster", clicked=lambda: self.onJoinSpymaster.emit())
         self.spyButton.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:15px; border-radius:10px;")
         mainLayout.addWidget(self.spyButton)
@@ -36,11 +40,12 @@ class TeamWidget(QWidget):
         # Players table
         self.playlistWidget = QListWidget()
         self.playlistWidget.setEnabled(False)
-        self.playlistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
-                                          "border: 2px solid "+color)
+        self.playlistWidget.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px; Background-color: " + self._color + ";"
+            "border: 2px solid " + color)
         # button join as player
         self.playerButton = QPushButton(
-            "Join as player", clicked=self.addPlayer)
+            "Join as player", clicked=lambda: self.onJoinPlayer.emit())
         self.playerButton.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:15px;  border-radius:10px;")
         mainLayout.addWidget(self.playerButton)
@@ -49,11 +54,22 @@ class TeamWidget(QWidget):
     def addSpymaster(self, playerName):
         self.spylistWidget.addItem(playerName)
 
+    def removeSpymaster(self, playerName):
+        items_list = self.spylistWidget.findItems(playerName, QtCore.Qt.MatchExactly)
+
+        for item in items_list:
+            r = self.spylistWidget.row(item)
+            self.spylistWidget.takeItem(r)
+
     def addPlayer(self, playerName):
         self.playlistWidget.addItem(playerName)
 
-    def removePlayer(self, playerPosition):
-        self.listWidget.takeItem(self.spylistWidget.itemAt(playerPosition))
+    def removePlayer(self, playerName):
+        items_list = self.playlistWidget.findItems(playerName, QtCore.Qt.MatchExactly)
+
+        for item in items_list:
+            r = self.playlistWidget.row(item)
+            self.playlistWidget.takeItem(r)
 
     # def paintEvent(self, event):
     #     self.text = None

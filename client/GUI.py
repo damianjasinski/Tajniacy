@@ -1,4 +1,6 @@
-from client.NetClient import NetClient
+from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
+from shared.Team import Team
+from shared.c2s.HandshakeC2S import HandshakeC2S
 import sys
 import os
 import threading
@@ -12,10 +14,12 @@ from qt_material import apply_stylesheet
 
 
 class MainWindow(QMainWindow):
-    def __init__(self, username: str, netClient: NetClient):
+    def __init__(self, username: str, netClient):
         super().__init__()
 
         self.netClient = netClient
+        self.netClient.setMainWindow(self)
+        self.netClient.sendData(HandshakeC2S(username))
 
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
@@ -61,13 +65,12 @@ class MainWindow(QMainWindow):
         self.playLayout.setAlignment(Qt.AlignVCenter)
 
         # TeamRed
-        teamRed = TeamWidget("red")
-        self.playLayout.addWidget(teamRed, 1)
+        self.teamRed = TeamWidget("red")
+        self.teamRed.onJoinPlayer.connect(lambda: self.onPlayerSwitchTeam(Team.RED, False))
+        self.teamRed.onJoinSpymaster.connect(lambda: self.onPlayerSwitchTeam(Team.RED, True))
+        self.playLayout.addWidget(self.teamRed, 1)
         self.playLayout.addWidget(
             QLabel("                                                                 "))
-
-        # temporary line
-        teamRed.addSpymaster("Test (Spymaster)")
 
         # add cardsLayout to play Layout
         self.playLayout.addLayout(self.cardsLayout, 5)
@@ -83,10 +86,10 @@ class MainWindow(QMainWindow):
         # TeamBlue
         self.playLayout.addWidget(
             QLabel("                                                                 "))
-        teamBlue = TeamWidget("blue")
-        self.playLayout.addWidget(teamBlue, 1)
-        # temporary line
-        teamBlue.addSpymaster("Test (Spymaster)")
+        self.teamBlue = TeamWidget("blue")
+        self.teamBlue.onJoinPlayer.connect(lambda: self.onPlayerSwitchTeam(Team.BLUE, False))
+        self.teamBlue.onJoinSpymaster.connect(lambda: self.onPlayerSwitchTeam(Team.BLUE, True))
+        self.playLayout.addWidget(self.teamBlue, 1)
 
         if self.spymasterView:
             # cards.showSpymasterView()
@@ -127,21 +130,27 @@ class MainWindow(QMainWindow):
         self.playLayout.itemAt(1).widget().deleteLater()
         self.playLayout.itemAt(3).widget().deleteLater()
 
+    def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
+        self.netClient.sendData(ChooseTeamC2S(team, spymaster))
+
     # can be called to show which team should move
 
     def setBackgroundImage(self, teamColor):
         if teamColor == 'Blue':
-            self.setStyleSheet("QWidget#mainWidget { background-image: url(resources/backgroundBlue.png);"
-                               "background-repeat: no-repeat ;"
-                               "background-position: center}")
+            self.setStyleSheet(
+                "QWidget#mainWidget { background-image: url(resources/backgroundBlue.png);"
+                "background-repeat: no-repeat ;"
+                "background-position: center}")
         elif teamColor == 'Red':
-            self.setStyleSheet("QWidget#mainWidget { background-image: url(resources/backgroundRed.png);"
-                               "background-repeat: no-repeat ;"
-                               "background-position: center}")
+            self.setStyleSheet(
+                "QWidget#mainWidget { background-image: url(resources/backgroundRed.png);"
+                "background-repeat: no-repeat ;"
+                "background-position: center}")
         else:
-            self.setStyleSheet("QWidget#mainWidget { background-image: url(resources/backgroundNeutral.png);"
-                               "background-repeat: no-repeat ;"
-                               "background-position: center}")
+            self.setStyleSheet(
+                "QWidget#mainWidget { background-image: url(resources/backgroundNeutral.png);"
+                "background-repeat: no-repeat ;"
+                "background-position: center}")
 
 
 if __name__ == "__main__":

@@ -4,7 +4,6 @@ from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
 from shared.c2s.GameStartC2S import GameStartC2S
 from shared.c2s.HandshakeC2S import HandshakeC2S
 from shared.c2s.SpymasterHintC2S import SpymasterHintC2S
-from shared.c2s.SwitchSpymasterC2S import SwitchSpymasterC2S
 from shared.CardColor import CardColor
 from shared.PacketHandler import PacketHandler
 from shared.s2c.CardSelectS2C import CardSelectS2C
@@ -16,7 +15,6 @@ from shared.s2c.HandshakeS2C import HandshakeS2C
 from shared.s2c.PlayerJoinedS2C import PlayerJoinedS2C
 from shared.s2c.SpymasterHintS2C import SpymasterHintS2C
 from shared.s2c.SwitchPlayingSideS2C import SwitchPlayingSideS2C
-from shared.s2c.SwitchSpymasterS2C import SwitchSpymasterS2C
 from shared.s2c.TeamScoreS2C import TeamScoreS2C
 from shared.synchronized import synchronized
 from shared.Team import Team
@@ -32,8 +30,6 @@ class ServerPacketHandler():
         self.packetHandler = PacketHandler()
         self.packetHandler.register(HandshakeC2S, self.handleHandshake)
         self.packetHandler.register(ChooseTeamC2S, self.handleChooseTeam)
-        self.packetHandler.register(
-            SwitchSpymasterC2S, self.handleSwitchSpymaster)
         self.packetHandler.register(GameStartC2S, self.handleGameStart)
         self.packetHandler.register(CardVoteC2S, self.handleCardVote)
         self.packetHandler.register(CardSelectC2S, self.handleCardSelect)
@@ -83,12 +79,8 @@ class ServerPacketHandler():
 
     def handleChooseTeam(self, data: ChooseTeamC2S, param):
         param.player.team = data.team
-        param.player.spymaster = False
-        self.sendToAll(ChooseTeamS2C(param.player.name, data.team))
-
-    def handleSwitchSpymaster(self, data: SwitchSpymasterC2S, param):
-        param.player.spymaster = data.isSpymaster
-        self.sendToAll(SwitchSpymasterS2C(param.player.name, data.team))
+        param.player.spymaster = data.spymaster
+        self.sendToAll(ChooseTeamS2C(param.player.name, data.team, data.spymaster))
 
     def handleGameStart(self, data: GameStartC2S, param):
         self.game.generateWords()

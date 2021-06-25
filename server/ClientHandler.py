@@ -29,8 +29,8 @@ class ClientHandler(threading.Thread):
                 print(self, data)
 
                 self.packetHandler.handle(data, self)
-        except IOError:
-            print("exception")
+        except IOError as err:
+            print(err)
 
         print("Disconnected")
         self.server.game.removePlayer(self.player)

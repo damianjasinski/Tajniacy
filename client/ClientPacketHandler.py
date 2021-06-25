@@ -1,4 +1,6 @@
+from client.TeamWidget import TeamWidget
 import pickle
+from shared.Player import Player
 
 from PyQt5.QtCore import QObject
 from shared.c2s.CardSelectC2S import CardSelectC2S
@@ -7,7 +9,6 @@ from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
 from shared.c2s.GameStartC2S import GameStartC2S
 from shared.c2s.HandshakeC2S import HandshakeC2S
 from shared.c2s.SpymasterHintC2S import SpymasterHintC2S
-from shared.c2s.SwitchSpymasterC2S import SwitchSpymasterC2S
 from shared.CardColor import CardColor
 from shared.PacketHandler import PacketHandler
 from shared.s2c.CardSelectS2C import CardSelectS2C
@@ -19,9 +20,9 @@ from shared.s2c.HandshakeS2C import HandshakeS2C
 from shared.s2c.PlayerJoinedS2C import PlayerJoinedS2C
 from shared.s2c.SpymasterHintS2C import SpymasterHintS2C
 from shared.s2c.SwitchPlayingSideS2C import SwitchPlayingSideS2C
-from shared.s2c.SwitchSpymasterS2C import SwitchSpymasterS2C
 from shared.s2c.TeamScoreS2C import TeamScoreS2C
 from shared.Team import Team
+from client.GUI import MainWindow
 
 
 class ClientPacketHandler(QObject):
@@ -41,13 +42,21 @@ class ClientPacketHandler(QObject):
         self.packetHandler.register(SpymasterHintS2C, self.handleSpymasterHint)
         self.packetHandler.register(
             SwitchPlayingSideS2C, self.handleSwitchPlayingSide)
-        self.packetHandler.register(
-            SwitchSpymasterS2C, self.handleSwitchSpymaster)
         self.packetHandler.register(TeamScoreS2C, self.handleTeamScore)
 
     def onPacket(self, buff):
         data = pickle.loads(buff)
         print(data)
+        self.packetHandler.handle(data)
+
+    def setMainWindow(self, mainWindow: MainWindow):
+        self.mainWindow = mainWindow
+
+    def addPlayerToTeam(self, name: str, spymaster: bool, teamWidget: TeamWidget):
+        if spymaster:
+            teamWidget.addSpymaster(name)
+        else:
+            teamWidget.addPlayer(name)
 
     def handleCardSelect(self, data: CardSelectS2C):
         pass
@@ -56,7 +65,16 @@ class ClientPacketHandler(QObject):
         pass
 
     def handleChooseTeam(self, data: ChooseTeamS2C):
-        pass
+        self.mainWindow.teamRed.removePlayer(data.playerName)
+        self.mainWindow.teamRed.removeSpymaster(data.playerName)
+
+        self.mainWindow.teamBlue.removePlayer(data.playerName)
+        self.mainWindow.teamBlue.removeSpymaster(data.playerName)
+
+        if data.team == Team.RED:
+            self.addPlayerToTeam(data.playerName, data.spymaster, self.mainWindow.teamRed)
+        elif data.team == Team.BLUE:
+            self.addPlayerToTeam(data.playerName, data.spymaster, self.mainWindow.teamBlue)
 
     def handleGameEnd(self, data: GameEndS2C):
         pass
@@ -65,18 +83,22 @@ class ClientPacketHandler(QObject):
         pass
 
     def handleHandshake(self, data: HandshakeS2C):
-        pass
+        for player in data.players:
+            if player.team == Team.RED:
+                self.addPlayerToTeam(player.name, player.spymaster, self.mainWindow.teamRed)
+            elif player.team == Team.BLUE:
+                self.addPlayerToTeam(player.name, player.spymaster, self.mainWindow.teamBlue)
 
     def handlePlayerJoined(self, data: PlayerJoinedS2C):
-        pass
+        if data.player.team == Team.RED:
+            self.addPlayerToTeam(data.player, self.mainWindow.teamRed)
+        elif data.player.team == Team.BLUE:
+            self.addPlayerToTeam(data.player, self.mainWindow.teamBlue)
 
     def handleSpymasterHint(self, data: SpymasterHintS2C):
         pass
 
     def handleSwitchPlayingSide(self, data: SwitchPlayingSideS2C):
-        pass
-
-    def handleSwitchSpymaster(self, data: SwitchSpymasterS2C):
         pass
 
     def handleTeamScore(self, data: TeamScoreS2C):
