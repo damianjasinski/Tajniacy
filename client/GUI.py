@@ -180,7 +180,7 @@ class UserInterface(QMainWindow):
         self.cardsLayout.addWidget(self.cardsWidget)
         self.playLayout.itemAt(1).widget().deleteLater()
         self.playLayout.itemAt(3).widget().deleteLater()
-
+    
 
     # can be called to show which team should move
 

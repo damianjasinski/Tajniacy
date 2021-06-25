@@ -10,9 +10,9 @@ class TeamWidget(QWidget):
     def __init__(self, color):
         super().__init__()
         if color == 'red' or color == 'Red':
-            self._color = "rgb(153, 0, 0)"
+            self._color = "rgba(153, 0, 0, 120)"
         elif color == 'blue' or color == 'Blue':
-            self._color = "rgb(0, 0, 153)"
+            self._color = "rgba(0, 0, 153, 120)"
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
@@ -24,6 +24,7 @@ class TeamWidget(QWidget):
 
         #Spymasters table
         self.spylistWidget = QListWidget()
+        self.spylistWidget.setParent(self)
         self.spylistWidget.setEnabled(False)                 
         self.spylistWidget.setStyleSheet("font-family:Berlin Sans FB; font-size:18px; Background-color: "+self._color+";"
                                       "border: 2px solid "+color)
