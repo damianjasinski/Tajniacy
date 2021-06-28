@@ -22,6 +22,8 @@ from shared.Team import Team
 
 from server.Game import Game
 
+import time
+
 
 class ServerPacketHandler():
 
@@ -45,9 +47,13 @@ class ServerPacketHandler():
             if handler is not param:
                 handler.send(data)
 
+        time.sleep(0.2)
+
     def sendToAll(self, data):
         for handler in self.server.clientHandlers:
             handler.send(data)
+
+        time.sleep(0.2)
 
     def countTeamScore(self, team: Team):
         cardColor = CardColor.NEUTRAL
