@@ -51,6 +51,11 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(mainWidget)
         mainWidget.setLayout(mainLayout)
 
+        #skip button for players (not spymaster)
+        self.skipButton = QPushButton("Skip", clicked = self.onSkipButton)
+        self.skipButton.setStyleSheet(
+            "font-family:Berlin Sans FB; font-size:18px;border-radius:10px;")
+    
         # set background based on which team should move
         self.setBackgroundImage("none")
 
@@ -144,6 +149,7 @@ class MainWindow(QMainWindow):
 
         buttonLayout.addWidget(self.spyTipLabel)
         buttonLayout.addWidget(self.spyCardNumber)
+        buttonLayout.addWidget(self.skipButton)
         mainLayout.addStretch(8)
 
     def onStartGameClicked(self):
@@ -169,6 +175,15 @@ class MainWindow(QMainWindow):
     def showSpymasterTipLabels(self):
         self.spyTipLabel.show()
         self.spyCardNumber.show()
+
+    def onSkipButton(self):
+        pass
+
+    def hideSkipButton(self):
+        self.skipButton.hide()
+
+    def showSkipButton(self):
+        self.skipButton.show()
 
     def hideSpymasterFields(self):
         self.spymasterButton.hide()
