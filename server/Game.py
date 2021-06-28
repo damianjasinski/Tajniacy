@@ -25,7 +25,7 @@ class Game():
         print("Generating cards...")
         reader = WordReader()
         reader.read_file("words.txt")
-        words = random.choices(reader.get_words(), k=25)
+        words = random.sample(reader.get_words(), k=25)
 
         tempCardList = []
 
