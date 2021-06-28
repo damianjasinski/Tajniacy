@@ -1,3 +1,4 @@
+from shared.c2s.SkipRoundC2S import SkipRoundC2S
 from shared.c2s.CardSelectC2S import CardSelectC2S
 from shared.c2s.CardVoteC2S import CardVoteC2S
 from shared.c2s.ChooseTeamC2S import ChooseTeamC2S
@@ -112,6 +113,20 @@ class ServerPacketHandler():
 
         self.sendToAll(SwitchPlayingSideS2C(self.game.currentTeam, True))
         self.sendToAll(TeamScoreS2C(self.countTeamScore(Team.RED), self.countTeamScore(Team.BLUE)))
+
+    def handleSkipRound(self, data: SkipRoundC2S, param):
+        playingTeam = Team.NONE
+
+        if self.game.currentTeam == Team.RED:
+            playingTeam = Team.BLUE
+        elif self.game.currentTeam == Team.BLUE:
+            playingTeam = Team.RED
+
+        self.game.currentTeam = playingTeam
+
+        self.sendToAll(SwitchPlayingSideS2C(playingTeam, True))
+
+        self.resetCardVotes()
 
     def handleCardVote(self, data: CardVoteC2S, param):
         if param.player.team != self.game.currentTeam:
