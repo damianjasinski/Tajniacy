@@ -1,3 +1,4 @@
+from shared.c2s.SkipRoundC2S import SkipRoundC2S
 from shared.c2s.CardSelectC2S import CardSelectC2S
 from shared.c2s.CardVoteC2S import CardVoteC2S
 from shared.c2s.SpymasterHintC2S import SpymasterHintC2S
@@ -51,12 +52,12 @@ class MainWindow(QMainWindow):
         self.setCentralWidget(mainWidget)
         mainWidget.setLayout(mainLayout)
 
-        #skip button for players (not spymaster)
-        self.skipButton = QPushButton("Skip", clicked = self.onSkipButton)
+        # skip button for players (not spymaster)
+        self.skipButton = QPushButton("Skip", clicked=self.onSkipButton)
         self.skipButton.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:18px;border-radius:10px;")
         self.skipButton.hide()
-    
+
         # set background based on which team should move
         self.setBackgroundImage("none")
 
@@ -92,7 +93,10 @@ class MainWindow(QMainWindow):
         self.startGameBtn.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:35px;border-radius:10px;")
         self.startGameBtn.setMaximumSize(550, 50)
+<<<<<<< HEAD
 
+=======
+>>>>>>> eea81ff6708c35fb5dfc1849964fcb6bb00677b3
         self.cardsLayout.addWidget(self.startGameBtn)
 
         # TeamBlue
@@ -185,11 +189,11 @@ class MainWindow(QMainWindow):
         self.spyCardNumber.show()
 
     def onSkipButton(self):
-        pass
+        self.netClient.sendData(SkipRoundC2S())
 
     def showStartButton(self):
         self.startGameBtn.show()
-    
+
     def hideStartButton(self):
         self.startGameBtn.hide()
 

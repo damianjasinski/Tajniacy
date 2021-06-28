@@ -97,6 +97,7 @@ class ClientPacketHandler(QObject):
 
         self.mainWindow.cardsWidget.addCards(data.cards)
         self.mainWindow.hideCardsBtn()
+        self.mainWindow.hideSkipButton()
 
         if data.spymaster:
             self.mainWindow.cardsWidget.showSpymasterView()
@@ -117,8 +118,10 @@ class ClientPacketHandler(QObject):
         else:
             if self.game.team == data.side and data.spymaster == False:
                 self.mainWindow.showCardsBtn()
+                self.mainWindow.showSkipButton()
             else:
                 self.mainWindow.hideCardsBtn()
+                self.mainWindow.hideSkipButton()
 
     def handleCardSelect(self, data: CardSelectS2C):
         self.mainWindow.cardsWidget.revealCard(data.cardText, data.color)
@@ -145,5 +148,6 @@ class ClientPacketHandler(QObject):
             self.mainWindow.hideSpymasterFields()
         else:
             self.mainWindow.hideCardsBtn()
+            self.mainWindow.hideSkipButton()
 
         self.mainWindow.setTitle(data.winningTeam.name)
