@@ -20,7 +20,7 @@ class TeamWidget(QWidget):
 
         mainLayout = QVBoxLayout()
         self.setLayout(mainLayout)
-        self.setMinimumSize(60, 60)
+        self.setMinimumSize(120,60)
 
         self.scoreLabel = QLabel("")
         self.scoreLabel.setStyleSheet("font-family:Berlin Sans FB; font-size:28px;")
