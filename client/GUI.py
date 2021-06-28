@@ -93,7 +93,6 @@ class MainWindow(QMainWindow):
         self.startGameBtn.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:35px;border-radius:10px;")
         self.startGameBtn.setMaximumSize(550, 50)
-        self.startGameBtn.hide()
         self.cardsLayout.addWidget(self.startGameBtn)
 
         # TeamBlue
@@ -184,7 +183,7 @@ class MainWindow(QMainWindow):
 
     def showStartButton(self):
         self.startGameBtn.show()
-    
+
     def hideStartButton(self):
         self.startGameBtn.hide()
 
