@@ -93,10 +93,6 @@ class MainWindow(QMainWindow):
         self.startGameBtn.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:35px;border-radius:10px;")
         self.startGameBtn.setMaximumSize(550, 50)
-<<<<<<< HEAD
-
-=======
->>>>>>> eea81ff6708c35fb5dfc1849964fcb6bb00677b3
         self.cardsLayout.addWidget(self.startGameBtn)
 
         # TeamBlue
