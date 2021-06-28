@@ -92,7 +92,7 @@ class MainWindow(QMainWindow):
         self.startGameBtn.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:35px;border-radius:10px;")
         self.startGameBtn.setMaximumSize(550, 50)
-        self.startGameBtn.hide()
+
         self.cardsLayout.addWidget(self.startGameBtn)
 
         # TeamBlue
@@ -155,7 +155,13 @@ class MainWindow(QMainWindow):
         mainLayout.addStretch(8)
 
     def onStartGameClicked(self):
-        self.netClient.sendData(GameStartC2S())
+        print("Trying to start the game")
+        if self.teamRed.isPlayerListEmpty() == False or self.teamBlue.isPlayerListEmpty() == False:
+            print("Ok, someone is in game, starting")
+            self.netClient.sendData(GameStartC2S())
+        else:
+            print("Can't start empty game")
+            QMessageBox.about(self, "Woops", "There are no players yet!")
 
     def onPlayerSwitchTeam(self, team: Team, spymaster: bool):
         self.netClient.sendData(ChooseTeamC2S(team, spymaster))

@@ -12,6 +12,7 @@ class TeamWidget(QWidget):
 
     def __init__(self, color):
         super().__init__()
+        self.playerList = []
         if color == 'red' or color == 'Red':
             self._color = "rgba(255, 30, 30, 95)"
         elif color == 'blue' or color == 'Blue':
@@ -61,26 +62,42 @@ class TeamWidget(QWidget):
 
     def addSpymaster(self, playerName):
         self.spylistWidget.addItem(playerName)
+        print(f"Added {playerName} to the player list")
+        self.playerList.append(playerName)
 
     def removeSpymaster(self, playerName):
         items_list = self.spylistWidget.findItems(playerName, QtCore.Qt.MatchExactly)
-
+        try:
+            self.playerList.remove(playerName)
+        except:
+            print(f"Trying to remove player {playerName} but its not in the list")
         for item in items_list:
             r = self.spylistWidget.row(item)
             self.spylistWidget.takeItem(r)
 
     def addPlayer(self, playerName):
+        self.playerList.append(playerName)
+        print(f"Added {playerName} to the player list")
         self.playlistWidget.addItem(playerName)
+        for item in self.playerList:
+            print(item)
 
     def removePlayer(self, playerName):
         items_list = self.playlistWidget.findItems(playerName, QtCore.Qt.MatchExactly)
-
+        try:
+            self.playerList.remove(playerName)
+        except:
+            print(f"Trying to remove player {playerName} but its not in the list")
         for item in items_list:
             r = self.playlistWidget.row(item)
             self.playlistWidget.takeItem(r)
 
-    # in order to hide buttons from both teams you need to call this method from both instantions.
+    def isPlayerListEmpty(self):
+        if not self.playerList:
+            return True
+        return False
 
+    # in order to hide buttons from both teams you need to call this method from both instantions.
     def hideJoinBtns(self):
         self.playerButton.hide()
         self.spyButton.hide()
