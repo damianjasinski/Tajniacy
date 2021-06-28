@@ -52,7 +52,7 @@ class Card(QFrame):
                                        "background-color:rgba(0,0,0,50);"
                                        "}"
                                        "QProgressBar::chunk "
-                                       "{ background-image:url(resources/progChunk2.png);"
+                                       "{ background-color:rgba(255,255,255,130);"
                                        "margin: 2px;"
                                        "width: 16px;"
                                        "}")
@@ -97,13 +97,13 @@ class Card(QFrame):
         self.isSpymasterView = True
         self.setStyleSheet(
             "#Card {background-image: url(resources/" + self.color + "Card.png)}")
-        self.wordUsed.setMaximumSize(150, 50)
+        self.wordUsed.setMaximumSize(160, 25)
 
         self.mainLayout.removeWidget(self.voteBtn)
         self.voteBtn.deleteLater()
         self.mainLayout.removeWidget(self.chooseBtn)
         self.chooseBtn.deleteLater()
-        self.mainLayout.addWidget(self.wordUsed, 1, 1, 1, 1)
+        self.mainLayout.addWidget(self.wordUsed, 1, 1, 2, 3)
 
 
 class CardsWidget(QWidget):

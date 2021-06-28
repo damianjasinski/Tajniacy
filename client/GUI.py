@@ -30,7 +30,7 @@ class MainWindow(QMainWindow):
 
         self.setMinimumSize(1366, 768)
         self.setMaximumSize(1920, 1080)
-        self.setWindowTitle("Tajniacy")
+        self.setWindowTitle(f"Tajniacy - {username}")
         self.cardsWidget = None
 
         # Layouts set
