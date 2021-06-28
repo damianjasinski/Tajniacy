@@ -55,6 +55,7 @@ class MainWindow(QMainWindow):
         self.skipButton = QPushButton("Skip", clicked = self.onSkipButton)
         self.skipButton.setStyleSheet(
             "font-family:Berlin Sans FB; font-size:18px;border-radius:10px;")
+        self.skipButton.hide()
     
         # set background based on which team should move
         self.setBackgroundImage("none")
