@@ -35,6 +35,7 @@ class ServerPacketHandler():
         self.packetHandler.register(HandshakeC2S, self.handleHandshake)
         self.packetHandler.register(ChooseTeamC2S, self.handleChooseTeam)
         self.packetHandler.register(GameStartC2S, self.handleGameStart)
+        self.packetHandler.register(SkipRoundC2S, self.handleSkipRound)
         self.packetHandler.register(CardVoteC2S, self.handleCardVote)
         self.packetHandler.register(CardSelectC2S, self.handleCardSelect)
         self.packetHandler.register(SpymasterHintC2S, self.handleSpymasterHint)
