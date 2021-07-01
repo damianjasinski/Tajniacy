@@ -1,3 +1,4 @@
+from client.SoundManager import SoundManager
 from client.CardsWidget import CardsWidget
 from client.TeamWidget import TeamWidget
 import pickle
@@ -30,6 +31,18 @@ class ClientPacketHandler(QObject):
     def __init__(self, netClient):
         QObject.__init__(self)
 
+        self.soundManager = SoundManager((
+            "fail",
+            "message",
+            "music",
+            "reveal",
+            "start",
+            "vote",
+            "win"
+        ))
+
+        self.soundManager.loop_sound("music")
+
         netClient.onPacketReceive.connect(self.onPacket)
 
         self.packetHandler = PacketHandler()
@@ -59,6 +72,7 @@ class ClientPacketHandler(QObject):
             teamWidget.addSpymaster(name)
         else:
             teamWidget.addPlayer(name)
+        self.soundManager.play_sound("vote")
 
     def handleHandshake(self, data: HandshakeS2C):
         for player in data.players:
@@ -101,6 +115,7 @@ class ClientPacketHandler(QObject):
 
         if data.spymaster:
             self.mainWindow.cardsWidget.showSpymasterView()
+        self.soundManager.play_sound("start")
 
     def handleSwitchPlayingSide(self, data: SwitchPlayingSideS2C):
         self.mainWindow.setBackgroundImage(data.side.name.lower())
@@ -125,17 +140,19 @@ class ClientPacketHandler(QObject):
 
     def handleCardSelect(self, data: CardSelectS2C):
         self.mainWindow.cardsWidget.revealCard(data.cardText, data.color)
-        pass
+        self.soundManager.play_sound("reveal")
 
     def handleCardVote(self, data: CardVoteS2C):
         card = self.mainWindow.cardsWidget.findCard(data.cardText)
 
         if card != None:
             card.setVotes(len(data.votes))
+            self.soundManager.play_sound("vote")
 
     def handleSpymasterHint(self, data: SpymasterHintS2C):
         self.mainWindow.showSpymasterTipLabels()
         self.mainWindow.setSpymasterTipLabels(data.hint, data.number)
+        self.soundManager.play_sound("message")
 
     def handleTeamScore(self, data: TeamScoreS2C):
         self.mainWindow.teamRed.setPoints(data.redTeamScore)
@@ -151,3 +168,8 @@ class ClientPacketHandler(QObject):
             self.mainWindow.hideSkipButton()
 
         self.mainWindow.setTitle(data.winningTeam.name)
+
+        if self.game.team == self.data.winningTeam:
+            self.soundManager.play_sound("win")
+        else:
+            self.soundManager.play_sound("lose")
