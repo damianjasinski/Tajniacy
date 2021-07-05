@@ -52,7 +52,7 @@ class Card(QFrame):
                                        "background-color:rgba(0,0,0,50);"
                                        "}"
                                        "QProgressBar::chunk "
-                                       "{ background-color:rgba(255,255,255,130);"
+                                       "{ background-color:rgb(255,255,255);"
                                        "margin: 2px;"
                                        "width: 16px;"
                                        "}")
