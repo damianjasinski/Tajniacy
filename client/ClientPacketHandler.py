@@ -169,7 +169,7 @@ class ClientPacketHandler(QObject):
 
         self.mainWindow.setTitle(data.winningTeam.name)
 
-        if self.game.team == self.data.winningTeam:
+        if self.game.team == data.winningTeam:
             self.soundManager.play_sound("win")
         else:
-            self.soundManager.play_sound("lose")
+            self.soundManager.play_sound("fail")

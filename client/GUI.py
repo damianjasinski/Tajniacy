@@ -212,7 +212,8 @@ class MainWindow(QMainWindow):
     def setTitle(self, color):
         self.titleLabel.setText(f"{color} team wins!")
         self.titleLabel.setStyleSheet(
-            "font-family: 'Berlin Sans FB'; font-size:80px; cursive; color: "+color+"; ")
+            "font-family: 'Berlin Sans FB'; font-size:80px; cursive; color: white; ")
+        self.setBackgroundImage(color)
 
     def showCardsBtn(self):
         try:
@@ -244,6 +245,7 @@ class MainWindow(QMainWindow):
 
     # can be called to show which team should move
     def setBackgroundImage(self, teamColor):
+        teamColor = teamColor.lower()
         if teamColor == 'blue':
             self.setStyleSheet(
                 "QWidget#mainWidget { background-image: url(resources/backgroundBlue.png);"
