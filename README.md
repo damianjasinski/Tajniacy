@@ -1,6 +1,6 @@
 # Tajniacy
 
-Gra to w sumie klon Tajniaków tyle
+Gra to w sumie klon Tajniaków (gra planszowo towarzysko rozrywkowa)
 
 ## How to configure
 
